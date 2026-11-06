@@ -1,0 +1,47 @@
+--- a/dataset/bmc_programs.json
++++ b/dataset/bmc_programs.json
+@@ -39,5 +39,15 @@
+       "precondition_max_base": 5,
+       "expected_label": "SAFE"
++    },
++    {
++      "id": "BMC-05-UNSAFE-REVERSE-SCAN",
++      "description": "Truy cap mang dem nguoc catalog[array_size - i] voi i tu 0..array_size. Tai i = 0, index = array_size = 10 gay vuot bien ngay tai buoc unwind dau tien.",
++      "array_size": 10,
++      "unwind_bound": 10,
++      "symbolic_base": false,
++      "fixed_base": 0,
++      "index_mode": "reverse",
++      "expected_label": "UNSAFE"
+     }
+   ]
+ }
+--- a/python/bmc_engine.py
++++ b/python/bmc_engine.py
+@@ -53,3 +53,7 @@
+         else:
+             base_index = program["fixed_base"]
+ 
++        is_reverse = (program.get("index_mode") == "reverse")
++        if is_reverse:
++            index_expr = array_size - i  # buoc unwind thu i: index = array_size - i (BMC-05)
++        else:
+             index_expr = base_index + i  # buoc unwind thu i: index = base_index + i
+--- a/c/array_access.c
++++ b/c/array_access.c
+@@ -87,4 +87,17 @@
+ }
+ 
++/* BMC-05: duyet nguoc catalog[ARRAY_SIZE - i], tai i=0 vuot bien ngay buoc dau tien */
++static void reverse_scan(CatalogEntry catalog[ARRAY_SIZE]) {
++    for (int i = 0; i < ARRAY_SIZE; i++) {
++        int index = ARRAY_SIZE - i;    /* !!! LOI: tai i=0 -> index = 10 (phai la ARRAY_SIZE - 1 - i) !!! */
++#ifndef __SANITIZE_ADDRESS__
++        if (index >= ARRAY_SIZE || index < 0) {
++            asan_report_overflow("reverse_scan", 93, index);
++        }
++#endif
++        printf("  catalog[%d].id = %d\n", index, catalog[index].id);
++    }
++}
++

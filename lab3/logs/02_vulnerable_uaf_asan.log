@@ -1,0 +1,6 @@
+=================================================================
+==1234==ERROR: AddressSanitizer: heap-use-after-free on address 0x00412380
+READ of size 4 at 0x00412380 thread T0
+    #0 0x00401480 in demo_use_after_free vulnerable_inventory.c:62
+    #1 0x00401580 in main vulnerable_inventory.c:91
+SUMMARY: AddressSanitizer: heap-use-after-free vulnerable_inventory.c:62 in demo_use_after_free

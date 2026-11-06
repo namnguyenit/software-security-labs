@@ -1,0 +1,17 @@
+=== He thong: AccessControl-Door-v1-SAFE ===
+So trang thai khai bao: 5
+So trang thai co the den duoc (reachable): 5 / 5
+
+[P1_SAFETY_NO_UNLOCK_WITHOUT_AUTH] Khong bao gio ton tai trang thai unlocked ma khong authenticated (khong the mo khoa neu chua xac thuc).
+  Cong thuc : unlocked AND NOT authenticated
+  Ket qua   : THOA MAN (PASS)
+
+[P2_SAFETY_ALARM_ON_TAMPER] Moi khi phat hien tamper, he thong phai o trang thai bao dong (alarm).
+  Cong thuc : tamper -> alarm
+  Ket qua   : THOA MAN (PASS)
+
+[P3_REACHABILITY_UNLOCK] Ton tai it nhat mot duong di tu trang thai khoi tao den trang thai unlocked (tinh kha thi).
+  Cong thuc : unlocked
+  Ket qua   : THOA MAN (PASS)
+  Duong di  : Locked_Idle -> Authenticating -> Authenticated_Unlock
+  Su kien   : insert_card , auth_success

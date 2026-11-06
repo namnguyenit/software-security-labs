@@ -1,0 +1,38 @@
+=== PHAN TICH TRADE-OFF: CPPCHECK (TINH) VS ADDRESSSANITIZER (DONG) TRONG PIPELINE CI/CD ===
+
+CAU HOI:
+"Neu phai chon CHI MOT cong cu (cppcheck tinh hoac AddressSanitizer dong) de dua vao pipeline CI/CD,
+ban chon cong cu nao? Vi sao?"
+
+1. SO SANH CAC TIEU CHI KY THUAT:
+---------------------------------------------------------------------------------------------------------
+Tieu chi                 cppcheck (Phan tich Tinh - SAST)        AddressSanitizer (Phan tich Dong - DAST)
+---------------------------------------------------------------------------------------------------------
+Dieu kien thuc thi       Khong can bien dich, khong can chay code. Bat buoc phai bien dich va chay qua test case.
+Toc do phan tich         Cuc ky nhanh (vai giay tren toan bo repo). Cham hon (overhead CPU ~2x, RAM ~3x).
+Do phu ma (Coverage)     100% moi dong code (ca nhanh hiem gap).  Chi phu tren cac dong ma test suite chay qua.
+Do chinh xac (Accuracy)  Co the co False Positives (bao dong gia) Khong bao gio bao dong gia (Zero False Positives).
+Kha nang bat loi         Bat tot bien chua khoi tao, cu phap,    Bat tot loi tran bo dem heap/stack,
+                         con tro NULL ro rang.                    Use-After-Free, Memory Leak thuc te.
+---------------------------------------------------------------------------------------------------------
+
+2. LAP LUAN LUA CHON CHO PIPELINE CI/CD:
+- NEU BAT BUOC PHAI CHON CHI DUY NHAT 1 CONG CU CHO PIPELINE CI/CD:
+  => LUA CHON TOI UU LA: AddressSanitizer (ASan)!
+
+  LY DO CHINH:
+  (1) Tinh xac thuc tuyet doi (Zero False Positive): Trong pipeline CI/CD tu dong, bao dong gia (False Positive)
+      la "ke thu" lon nhat vi no lam nghen build, lam phien cac lap trinh vien va giam do tin cay cua he thong.
+      ASan chi canh bao khi co hanh vi vi pham bo nho thuc su xay ra tren RAM, moi canh bao deu la loi that 100%.
+  (2) Bat duoc cac loi nguy hiem nhat: Cac lo hong nghiem trong nhat (nhu Buffer Overflow CWE-121, Use-After-Free CWE-416)
+      thuong lien quan den con tro phuc tap va tinh toan dong luc chay. ASan phat hien chinh xac tuyet doi cac loi nay,
+      trong khi cppcheck thuong bo sot khi con tro di qua nhieu tang ham hoac struct phuc tap.
+  (3) Tich hop tu nhien vao Unit Test: Moi du an nghiem tuc deu co bo test tu dong (make test). Viec bat co
+      `-fsanitize=address` trong qua trinh chay test giup kiem tra toan dien ma khong can them tool rieng.
+
+- GIAI PHAP TOAN DIEN TRONG THUC TE CONG NGHIEP (DEFENSE-IN-DEPTH):
+  Trong thuc te, khong nen loai tru ma can phoi hop ca hai theo mo hinh "Shift-Left Security":
+  - Stage 1 (Commit/PR Hook): Chay `cppcheck` nhanh trong 5 giay de ngan chan som cac loi so dang (bien chua khoi tao,
+    con tro NULL, dead code).
+  - Stage 2 (Nightly / Integration Test): Chay bo test day du voi `AddressSanitizer` de phat hien triet de cac loi bo nho
+    nguy hiem ma phan tich tinh khong the thay duoc.

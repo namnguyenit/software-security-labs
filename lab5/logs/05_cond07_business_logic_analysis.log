@@ -1,0 +1,36 @@
+=== PHAN TICH CHI TIET CAP DIEU KIEN COND-07 TU BO SUNG ===
+
+1. BOI CANH VA DINH NGHIA CAP DIEU KIEN COND-07:
+   - Module: Order & Transaction (He thong thuong mai dien tu SecureSys)
+   - Muc dich nghiep vu: Ap dung ma giam gia VIP dac biet
+   - Quy tac nghiep vu:
+     Giam gia VIP chi duoc ap dung neu:
+     Khach hang la thanh vien VIP (is_vip == True)
+     HOAC don hang co tong gia tri tu 1000$ tro len VA co nhap ma coupon hop le (order_total >= 1000 && has_coupon == True).
+
+   - Bieu thuc goc (Original P):
+     P = Or(is_vip, And(order_total >= 1000, has_coupon))
+
+   - Bieu thuc "Toi uu hoa" bi loi (Optimized Q):
+     Lap trinh vien cho rang "he co coupon la duoc giam" nen viet lai thanh:
+     Q = Or(is_vip, has_coupon)
+
+2. KET QUA KIEM CHUNG VOI Z3 SMT SOLVER:
+   - P XOR Q tra ve: SAT (Khong tuong duong)
+   - Phan vi du (Counterexample) do Z3 tim ra:
+     {
+       is_vip:      False,
+       has_coupon:  True,
+       order_total: 999  (hoac 0)
+     }
+
+3. PHAN TICH NGHIEP VU VA LO HONG AN TOAN:
+   - Ma loi CWE: CWE-840 (Business Logic Error) va CWE-285 (Improper Authorization).
+   - Danh gia thuc te:
+     + Khi nguoi dung thuong (is_vip = False) mua mot mon hang chi co 0$ hoac 10$ nhung co mot coupon bat ky (has_coupon = True):
+       * He thong goc (P): Khong duoc giam gia VIP (vi order_total < 1000).
+       * He thong loi (Q): Lap tuc ap dung giam gia VIP!
+     + Kẻ gian có thể mua những đơn hàng giá trị nhỏ nhưng chiếm đoạt ưu đãi giảm giá lớn dành riêng cho khách VIP,
+       gây thiệt hại tài chính trực tiếp cho doanh nghiệp.
+   - SMT Solver đã phát hiện lỗi này với biến số nguyên `order_total` (miền giá trị vô hạn), điều mà
+     phương pháp liệt kê vét cạn không thể thực hiện được.

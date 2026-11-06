@@ -1,0 +1,69 @@
+=== KET QUA CHAY BO TEST 'COMBINATORIAL' (56 TEST CASE) ===
+
+[PASS] qty=0    price=0.0        member=0 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=0    price=0.0        member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=0    price=-1.0       member=0 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=0    price=-1.0       member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=0    price=50000.0    member=0 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=0    price=50000.0    member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=0    price=20000000.0 member=0 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=0    price=20000000.0 member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=101  price=0.0        member=0 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=101  price=0.0        member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=101  price=-1.0       member=0 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=101  price=-1.0       member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=101  price=50000.0    member=0 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=101  price=50000.0    member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=101  price=20000000.0 member=0 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=101  price=20000000.0 member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=5    price=0.0        member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=5    price=0.0        member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=5    price=-1.0       member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=5    price=-1.0       member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=5    price=50000.0    member=0 expected=OK                 actual=OK                 discount=0.00 total=250000.0
+[PASS] qty=5    price=50000.0    member=1 expected=OK                 actual=OK                 discount=0.05 total=237500.0
+[PASS] qty=5    price=20000000.0 member=0 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.00 total=100000000.0
+[PASS] qty=5    price=20000000.0 member=1 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.05 total=95000000.0
+[PASS] qty=9    price=0.0        member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=9    price=0.0        member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=9    price=-1.0       member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=9    price=-1.0       member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=9    price=50000.0    member=0 expected=OK                 actual=OK                 discount=0.00 total=450000.0
+[PASS] qty=9    price=50000.0    member=1 expected=OK                 actual=OK                 discount=0.05 total=427500.0
+[PASS] qty=9    price=20000000.0 member=0 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.00 total=180000000.0
+[PASS] qty=9    price=20000000.0 member=1 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.05 total=171000000.0
+[PASS] qty=10   price=0.0        member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=10   price=0.0        member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=10   price=-1.0       member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=10   price=-1.0       member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=10   price=50000.0    member=0 expected=OK                 actual=OK                 discount=0.00 total=500000.0
+[PASS] qty=10   price=50000.0    member=1 expected=OK                 actual=OK                 discount=0.15 total=425000.0
+[PASS] qty=10   price=20000000.0 member=0 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.00 total=200000000.0
+[PASS] qty=10   price=20000000.0 member=1 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.15 total=170000000.0
+[PASS] qty=20   price=0.0        member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=20   price=0.0        member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=20   price=-1.0       member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=20   price=-1.0       member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=20   price=50000.0    member=0 expected=OK                 actual=OK                 discount=0.10 total=900000.0
+[PASS] qty=20   price=50000.0    member=1 expected=OK                 actual=OK                 discount=0.15 total=850000.0
+[PASS] qty=20   price=20000000.0 member=0 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.10 total=360000000.0
+[PASS] qty=20   price=20000000.0 member=1 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.15 total=340000000.0
+[PASS] qty=100  price=0.0        member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=100  price=0.0        member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=100  price=-1.0       member=0 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=100  price=-1.0       member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=100  price=50000.0    member=0 expected=OK                 actual=OK                 discount=0.10 total=4500000.0
+[PASS] qty=100  price=50000.0    member=1 expected=OK                 actual=OK                 discount=0.15 total=4250000.0
+[PASS] qty=100  price=20000000.0 member=0 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.10 total=1800000000.0
+[PASS] qty=100  price=20000000.0 member=1 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.15 total=1700000000.0
+
+Tong: 56/56 test PASS
+
+Coverage: 92.19% (59/64 dong)
+
+Cac dong CHUA duoc kiem thu trong file order_processor.c:
+  Dong  92: default: return "UNKNOWN";
+  Dong 101: fprintf(stderr, "Cach dung: %s <test_inputs.csv>\n", argv[0]);
+  Dong 102: return 1;
+  Dong 106: fprintf(stderr, "[LOI] Khong mo duoc file: %s\n", argv[1]);
+  Dong 107: return 1;

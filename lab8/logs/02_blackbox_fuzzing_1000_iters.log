@@ -1,0 +1,10 @@
+=== KET QUA FUZZING HOP DEN (BLACK-BOX FUZZING) - NGAN SACH 1000 LAN THU ===
+So lan thu thuc hien (iterations): 1000
+Kich thuoc corpus cuoi cung     : 49
+So luong crash tim duoc          : 0
+
+DANH GIA THUC NGHIEM:
+- Fuzzer hop den khong nhan duoc bat ky phan hoi (feedback) nao tu ben trong chuong trinh.
+- Moi phep dot bien chi la su chen/xoa/thay ky tu ngau nhien hoac ghep token may man.
+- Trong 1000 lan thu, fuzzer hoan toan khong the mo dung to hop 'ADMIN:' + 'X' + chuoi dai >= 16 bytes.
+- Ket qua: 0 crash (that bai trong viec tim ra lo hong an sau magic pattern).

@@ -1,0 +1,67 @@
+=== SINH TEST CASE TO HOP TU DONG (COMBINATORIAL TESTING) ===
+
+Tong so test case da sinh: 56
+Phan hoach lop tuong duong:
+  - QUANTITY (7 lop): invalid_low(0), invalid_high(101), valid_low(5), valid_just_below_member(9),
+                      valid_member_threshold(10), valid_nonmember_threshold(20), valid_max(100)
+  - PRICE (4 lop)   : invalid_zero(0), invalid_negative(-1), valid_low(50000), valid_high_triggers_approval(20000000)
+  - MEMBER (2 lop)  : 0 (khong phai thanh vien), 1 (thanh vien)
+Tich Descartes: 7 x 4 x 2 = 56 ca kiem thu.
+
+DANH SACH 56 TEST CASE KEM NHAN DONG KY VONG TU ORACLE DOC LAP:
+  [ 1] qty=invalid_low, price=invalid_zero, member=0 -> INVALID_QTY
+  [ 2] qty=invalid_low, price=invalid_zero, member=1 -> INVALID_QTY
+  [ 3] qty=invalid_low, price=invalid_negative, member=0 -> INVALID_QTY
+  [ 4] qty=invalid_low, price=invalid_negative, member=1 -> INVALID_QTY
+  [ 5] qty=invalid_low, price=valid_low, member=0 -> INVALID_QTY
+  [ 6] qty=invalid_low, price=valid_low, member=1 -> INVALID_QTY
+  [ 7] qty=invalid_low, price=valid_high_triggers_approval, member=0 -> INVALID_QTY
+  [ 8] qty=invalid_low, price=valid_high_triggers_approval, member=1 -> INVALID_QTY
+  [ 9] qty=invalid_high, price=invalid_zero, member=0 -> INVALID_QTY
+  [10] qty=invalid_high, price=invalid_zero, member=1 -> INVALID_QTY
+  [11] qty=invalid_high, price=invalid_negative, member=0 -> INVALID_QTY
+  [12] qty=invalid_high, price=invalid_negative, member=1 -> INVALID_QTY
+  [13] qty=invalid_high, price=valid_low, member=0 -> INVALID_QTY
+  [14] qty=invalid_high, price=valid_low, member=1 -> INVALID_QTY
+  [15] qty=invalid_high, price=valid_high_triggers_approval, member=0 -> INVALID_QTY
+  [16] qty=invalid_high, price=valid_high_triggers_approval, member=1 -> INVALID_QTY
+  [17] qty=valid_low, price=invalid_zero, member=0 -> INVALID_PRICE
+  [18] qty=valid_low, price=invalid_zero, member=1 -> INVALID_PRICE
+  [19] qty=valid_low, price=invalid_negative, member=0 -> INVALID_PRICE
+  [20] qty=valid_low, price=invalid_negative, member=1 -> INVALID_PRICE
+  [21] qty=valid_low, price=valid_low, member=0 -> OK
+  [22] qty=valid_low, price=valid_low, member=1 -> OK
+  [23] qty=valid_low, price=valid_high_triggers_approval, member=0 -> APPROVAL_REQUIRED
+  [24] qty=valid_low, price=valid_high_triggers_approval, member=1 -> APPROVAL_REQUIRED
+  [25] qty=valid_just_below_member, price=invalid_zero, member=0 -> INVALID_PRICE
+  [26] qty=valid_just_below_member, price=invalid_zero, member=1 -> INVALID_PRICE
+  [27] qty=valid_just_below_member, price=invalid_negative, member=0 -> INVALID_PRICE
+  [28] qty=valid_just_below_member, price=invalid_negative, member=1 -> INVALID_PRICE
+  [29] qty=valid_just_below_member, price=valid_low, member=0 -> OK
+  [30] qty=valid_just_below_member, price=valid_low, member=1 -> OK
+  [31] qty=valid_just_below_member, price=valid_high_triggers_approval, member=0 -> APPROVAL_REQUIRED
+  [32] qty=valid_just_below_member, price=valid_high_triggers_approval, member=1 -> APPROVAL_REQUIRED
+  [33] qty=valid_member_threshold, price=invalid_zero, member=0 -> INVALID_PRICE
+  [34] qty=valid_member_threshold, price=invalid_zero, member=1 -> INVALID_PRICE
+  [35] qty=valid_member_threshold, price=invalid_negative, member=0 -> INVALID_PRICE
+  [36] qty=valid_member_threshold, price=invalid_negative, member=1 -> INVALID_PRICE
+  [37] qty=valid_member_threshold, price=valid_low, member=0 -> OK
+  [38] qty=valid_member_threshold, price=valid_low, member=1 -> OK
+  [39] qty=valid_member_threshold, price=valid_high_triggers_approval, member=0 -> APPROVAL_REQUIRED
+  [40] qty=valid_member_threshold, price=valid_high_triggers_approval, member=1 -> APPROVAL_REQUIRED
+  [41] qty=valid_nonmember_threshold, price=invalid_zero, member=0 -> INVALID_PRICE
+  [42] qty=valid_nonmember_threshold, price=invalid_zero, member=1 -> INVALID_PRICE
+  [43] qty=valid_nonmember_threshold, price=invalid_negative, member=0 -> INVALID_PRICE
+  [44] qty=valid_nonmember_threshold, price=invalid_negative, member=1 -> INVALID_PRICE
+  [45] qty=valid_nonmember_threshold, price=valid_low, member=0 -> OK
+  [46] qty=valid_nonmember_threshold, price=valid_low, member=1 -> OK
+  [47] qty=valid_nonmember_threshold, price=valid_high_triggers_approval, member=0 -> APPROVAL_REQUIRED
+  [48] qty=valid_nonmember_threshold, price=valid_high_triggers_approval, member=1 -> APPROVAL_REQUIRED
+  [49] qty=valid_max, price=invalid_zero, member=0 -> INVALID_PRICE
+  [50] qty=valid_max, price=invalid_zero, member=1 -> INVALID_PRICE
+  [51] qty=valid_max, price=invalid_negative, member=0 -> INVALID_PRICE
+  [52] qty=valid_max, price=invalid_negative, member=1 -> INVALID_PRICE
+  [53] qty=valid_max, price=valid_low, member=0 -> OK
+  [54] qty=valid_max, price=valid_low, member=1 -> OK
+  [55] qty=valid_max, price=valid_high_triggers_approval, member=0 -> APPROVAL_REQUIRED
+  [56] qty=valid_max, price=valid_high_triggers_approval, member=1 -> APPROVAL_REQUIRED

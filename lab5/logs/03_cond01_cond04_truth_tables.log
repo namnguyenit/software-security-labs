@@ -1,0 +1,39 @@
+=== BANG CHAN TRI (TRUTH TABLES) DOI CHIEU GIUA P (ORIGINAL) VA Q (OPTIMIZED) ===
+
+1. COND-01: DIEU KIEN MO KHOA CUA (Access Control Module)
+   Bien: a = authenticated, b = unlocked_requested, c = alarm_active
+   P (original) : a AND b AND (NOT c)
+   Q (optimized): (NOT (NOT a OR NOT b)) AND (NOT c)  [Ap dung luat De Morgan: NOT(NOT a OR NOT b) == a AND b]
+
+   BANG CHAN TRI DAY DU (2^3 = 8 TO HOP):
+   +---+---+---+-------+-------+-------------+-------------+-----------------------+-------+-------+-------------+
+   | a | b | c | NOT a | NOT b | NOT a V NOT b| NOT(...)    | a AND b               | NOT c |   P   |      Q      |
+   +---+---+---+-------+-------+-------------+-------------+-----------------------+-------+-------+-------------+
+   | 0 | 0 | 0 |   1   |   1   |      1      |      0      |           0           |   1   |   0   |      0      |
+   | 0 | 0 | 1 |   1   |   1   |      1      |      0      |           0           |   0   |   0   |      0      |
+   | 0 | 1 | 0 |   1   |   0   |      1      |      0      |           0           |   1   |   0   |      0      |
+   | 0 | 1 | 1 |   1   |   0   |      1      |      0      |           0           |   0   |   0   |      0      |
+   | 1 | 0 | 0 |   0   |   1   |      1      |      0      |           0           |   1   |   0   |      0      |
+   | 1 | 0 | 1 |   0   |   1   |      1      |      0      |           0           |   0   |   0   |      0      |
+   | 1 | 1 | 0 |   0   |   0   |      0      |      1      |           1           |   1   |   1   |      1      |
+   | 1 | 1 | 1 |   0   |   0   |      0      |      1      |           1           |   0   |   0   |      0      |
+   +---+---+---+-------+-------+-------------+-------------+-----------------------+-------+-------+-------------+
+   Ket luan COND-01: Cot P va cot Q hoan toan trung khop tren ca 8 dong (P <=> Q).
+   Z3 Solver xac nhan: UNSAT tren (P XOR Q) -> TUONG DUONG TUYET DOI!
+
+2. COND-04: DIEU KIEN CANH BAO AN TOAN (tamper -> alarm)
+   Bien: t = tamper, a = alarm
+   P (original) : t -> a  (tuc la: NOT t OR a)
+   Q (optimized): NOT t OR (a AND t)
+
+   BANG CHAN TRI DAY DU (2^2 = 4 TO HOP):
+   +---+---+-------+---------+--------+-------------+
+   | t | a | NOT t | a AND t | P (t->a)| Q (NOT t V (a AND t))|
+   +---+---+-------+---------+--------+-------------+
+   | 0 | 0 |   1   |    0    |   1    |      1      |
+   | 0 | 1 |   1   |    0    |   1    |      1      |
+   | 1 | 0 |   0   |    0    |   0    |      0      |
+   | 1 | 1 |   0   |    1    |   1    |      1      |
+   +---+---+-------+---------+--------+-------------+
+   Ket luan COND-04: Cot P va cot Q hoan toan trung khop tren ca 4 dong (P <=> Q).
+   Z3 Solver xac nhan: UNSAT tren (P XOR Q) -> TUONG DUONG TUYET DOI!

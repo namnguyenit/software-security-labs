@@ -1,0 +1,15 @@
+=== BANG DU DOAN TAY (BUOC 1) DOI CHIEU KET QUA DONG CO BMC (BUOC 2) ===
+
++-----------------------------+-----------------+--------------+-----------------+----------------------------------------+
+| Ma chuong trinh             | Du doan tren tay| Ket qua BMC  | Khop ky vong?   | Giai thich ly do / Nhan chung          |
++-----------------------------+-----------------+--------------+-----------------+----------------------------------------+
+| BMC-01-SAFE-FULL-SCAN       | SAFE            | SAFE         | KHOP [OK]       | i=0..9, moi chi so deu thuoc [0, 10)   |
+| BMC-02-UNSAFE-OFFBYONE      | UNSAFE          | UNSAFE       | KHOP [OK]       | Vong lap chay toi i=10 (<= 10), vuot   |
+| BMC-03-UNSAFE-SYMBOLIC-OFFS | UNSAFE          | UNSAFE       | KHOP [OK]       | base_index=9 khong kiem tra -> tai i=1 |
+|                             |                 |              |                 | truy cap catalog[10] vuot bien         |
+| BMC-04-SAFE-SYMBOLIC-BOUNDED| SAFE            | SAFE         | KHOP [OK]       | Co tien dieu kien base_index <= 5      |
+|                             |                 |              |                 | nen max index = 5 + 4 = 9 < 10         |
+| BMC-05-UNSAFE-REVERSE-SCAN  | UNSAFE          | UNSAFE       | KHOP [OK]       | catalog[10-i] tai i=0 truy cap index 10|
++-----------------------------+-----------------+--------------+-----------------+----------------------------------------+
+
+Tong ket: 5/5 chuong trinh du doan tay khop 100% voi ket qua chay Z3 SMT Solver.

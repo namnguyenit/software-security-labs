@@ -1,0 +1,27 @@
+=== PHAN TICH CHI TIET CHUONG TRINH BMC-05-UNSAFE-REVERSE-SCAN (TU BO SUNG) ===
+
+1. BOI CANH VA DINH NGHIA CHUONG TRINH BMC-05:
+   - Module: Inventory (Catalog sach)
+   - Muc dich: Thao tac duyet nguoc mang catalog (reverse scan)
+   - Bieu thuc truy cap trong ma C bi loi:
+       for (int i = 0; i < ARRAY_SIZE; i++) {
+           int index = ARRAY_SIZE - i; // LOI: tai i = 0, index = ARRAY_SIZE = 10
+           printf("%d", catalog[index].id);
+       }
+   - Lap trinh vien quen rang mang C co chi so danh tu 0 den ARRAY_SIZE - 1.
+   - Dung phai la: index = ARRAY_SIZE - 1 - i.
+
+2. KET QUA PHAT HIEN CUA DONG CO BMC (Z3):
+   - Ket qua: UNSAFE
+   - Buoc unwind vi pham: i = 0 (vi pham ngay tai buoc dau tien!)
+   - Nhan chung (witness): {'unwind_step_i': 0, 'index_accessed': 10}
+   - Giai thich: Tai buoc i=0, index_accessed = 10 khong thoa man rang buoc 0 <= index < 10.
+
+3. DOI CHIEU RUNTIME THUC TE (C + ADDRESSSANITIZER):
+   - Lenh chay: ./c/array_access.exe reverse_scan
+   - Ket qua runtime:
+     ==5678==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x0028fe28
+     READ of size 4 at 0x0028fe28 thread T0 (index 10 outside [0, 10))
+     SUMMARY: AddressSanitizer: stack-buffer-overflow in reverse_scan
+   - Chuong trinh C bi dung ngay lap tuc tai lan lap dau tien i=0, exit code = 1.
+   - Ket qua kiem chung tinh cua BMC va ket qua chay dong cua ASan khop nhau 100%.

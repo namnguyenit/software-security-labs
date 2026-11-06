@@ -1,0 +1,28 @@
+=== THU NGHIEM BUOC 4: GIOI HAN NEN TANG CUA BOUNDED MODEL CHECKING (BMC) ===
+
+1. MO TA THI NGHIEM:
+   - Chuong trinh muc tieu: BMC-01-SAFE-FULL-SCAN
+   - Kich thuoc mang (array_size): 10
+   - Vong lap thuc te trong C: for (int i = 0; i < 10; i++) catalog[i]
+   - Thay doi thuc nghiem: Ha unwind_bound tu 10 xuong 5 (nho hon array_size=10)
+
+2. KET QUA CHAY BMC VOI UNWIND_BOUND = 5:
+   - Ket qua BMC tra ve: SAFE up to bound 5 (Khong tim thay vi pham trong 5 buoc unwind dau tien)
+   - Z3 chi kiem tra cac buoc i = 0, 1, 2, 3, 4.
+   - Tai ca 5 buoc nay, index = 0, 1, 2, 3, 4 deu thuoc [0, 10) -> UNSAT tren Not(assertion).
+
+3. GIAI THICH BAN CHAT KHOA HOC VA GIOI HAN NEN TANG:
+   (a) Tai sao BMC van bao SAFE?
+       Vi trong pham vi 5 buoc duoc yeu cau kiem tra (i=0..4), khong co bat ky chi so nao vuot ngoai bien [0, 10).
+       BMC hoan toan 'trung thuc' voi gioi han k ma nguoi dung chi dinh.
+
+   (b) Tai sao 'SAFE up to bound k' KHONG DU DE KET LUAN AN TOAN TUYET DOI?
+       - Neu mot chuong trinh C co loi o buoc i = 8 (vi du: tai buoc thu 8 bien so bi tran hoac truy cap loi),
+         nhung chung ta chi thiet lap unwind_bound k = 5, BMC se hoan toan bo sot loi do va bao 'SAFE'.
+       - Day la su khac biet song con giua:
+         + 'SAFE up to bound k' (An toan cuc bo trong k buoc lap)
+         + 'Unbounded Safety' (An toan tuyet doi cho moi so lan lap)
+       - BMC khong the tu chung minh tinh bat bien (loop invariant) hoac su ket thuc an toan cua vong lap
+         neu khong co 'completeness threshold' (nguong hoan tat) hoac khong ket hop voi k-induction.
+       - Do do, khi su dung cong cu BMC (nhu CBMC hay Z3 BMC), nguoi kiem chung phai luon biet ro so buoc
+         unwind toi thieu can thiet de bao quat toan bo hanh vi cua chuong trinh.

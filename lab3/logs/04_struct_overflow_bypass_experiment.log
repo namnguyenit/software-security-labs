@@ -1,0 +1,40 @@
+=== THI NGHIEM QUAN TRONG: TRAN BO DEM BEN TRONG STRUCT KHONG BI ASAN PHAT HIEN ===
+
+1. MO TA THI NGHIEM:
+   Trong vulnerable_inventory.c co hai ham xu ly chuoi tieu de:
+   (a) add_book_title_UNSAFE_HEAP(): cap phat heap doc lap 32 bytes (char *buf).
+   (b) add_book_title_UNSAFE(): ghi vao truong b->title (32 bytes) nam ben trong struct Book:
+       typedef struct {
+           char title[32];   // Offset 0
+           char author[32];  // Offset 32
+           int  year;        // Offset 64
+           int  copies;      // Offset 68
+       } Book; // Tong kich thuoc: 72 bytes
+
+2. KET QUA KHI CHAY VOI PAYLOAD DAI 38 KY TU:
+   - Khi goi add_book_title_UNSAFE_HEAP():
+     AddressSanitizer PHAT HIEN NGAY LAP TUC loi:
+     "ERROR: AddressSanitizer: heap-buffer-overflow"
+     Ly do: Vung cap phat chi co 32 byte. ASan chen redzone (vung dem bao ve)
+     ngay sau 32 byte. Ghi byte thu 33 lap tuc cham vao redzone -> Crash & Alert.
+
+   - Khi goi add_book_title_UNSAFE() tren bien struct Book:
+     Lenh chay: ./c/vulnerable_inventory safe_input "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+     Ket qua: CHAY HOAN TOAN BINH THUONG, KHONG CO LOI ASAN NAO!
+     Output: "Tieu de sach da luu (struct field): AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+     Hau qua thuc te: 6 byte "AAAAAA" du thua da GHI DE sang truong author ke ben!
+
+3. GIAI THICH NGUYEN NHAN KY THUAT:
+   - Co che hoat dong cua AddressSanitizer: ASan quan ly bo nho o cap do doi tuong cap phat
+     (Object-level / Allocation-level). ASan chi chen redzone o HAI BIEN NGOAI CUNG cua toan bo
+     khoi struct Book (tai offset < 0 va offset >= sizeof(Book)).
+   - ASan KHONG the biet duoc cau truc bo tri cac truong (fields) ben trong struct o runtime.
+   - Do do, khong he co redzone giua b->title va b->author!
+   - Khi b->title bi tran sang b->author, con tro ghi van nam trong pham vi hop le cua struct Book
+     (offset 32..38 < 72).
+   - ASan coi day la mot thao tac ghi bo nho hop le vao vung da duoc cap phat cua struct Book.
+
+4. BAI HOC AN TOAN COT LOI:
+   "Chay chuong trinh qua ASan khong bao loi KHONG DONG NGHIA voi viec ma nguon an toan!"
+   ASan chi la cong cu kiem tra dong o bien vung nho cap phat, khong the thay the cac thuc hanh
+   lap trinh C an toan (nhu dung snprintf, kiem tra bounds chu dong, hoac dung static analysis).

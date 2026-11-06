@@ -1,0 +1,35 @@
+=== PHAN TICH CAY QUYET DINH (DECISION TREE) VA CAC DONG CHUA PHU ===
+
+1. CAY QUYET DINH (DECISION TREE) CUA PROCESS_ORDER():
+   [Root] input (quantity, unit_price, is_member)
+     |
+     +-- (quantity <= 0 || quantity > 100) ? --> YES --> [Path 1] return ORDER_INVALID_QTY
+     |
+     +-- (unit_price <= 0.0) ? --> YES --------------> [Path 2] return ORDER_INVALID_PRICE
+     |
+     +-- is_member == 1 ?
+     |     |-- quantity >= 10 ? --> YES -------------> [Path 3] discount = 0.15
+     |     \-- quantity < 10  ? --> YES -------------> [Path 4] discount = 0.05
+     |
+     +-- is_member == 0 ?
+     |     |-- quantity >= 20 ? --> YES -------------> [Path 5] discount = 0.10
+     |     \-- quantity < 20  ? --> YES -------------> [Path 6] discount = 0.00
+     |
+     \-- (total > 10,000,000) ?
+           |-- YES ----------------------------------> [Path 7] return ORDER_APPROVAL_REQUIRED
+           \-- NO  ----------------------------------> [Path 8] return ORDER_OK
+
+   Tong so duong thuc thi nghiep vu cot loi: 8 duong (paths).
+
+2. GIAI THICH CAC DONG KHONG THE PHU (5 DONG CON LAI - 7.81%):
+   Cac dong chua phu trong order_processor.c:
+     - Dong 92: default: return "UNKNOWN";
+       Giai thich: Enum OrderStatus chi co cac gia tri 0, 1, 2, 3. Nhanh default la lap trinh phong thu
+       (defensive programming) khong bao gio xay ra khi enum hop le.
+     - Dong 101, 102: if (argc < 2) { fprintf(...); return 1; }
+       Giai thich: Ham CLI luon duoc goi voi doi so duong dan CSV (argc == 2), nen nhanh argc < 2 khong chay.
+     - Dong 106, 107: if (!f) { fprintf(...); return 1; }
+       Giai thich: File CSV luon ton tai hop le trong dataset, nen nhanh loi fopen khong bao gio kich hoat.
+
+   KET LUAN: 5 dong nay thuoc ve tang giao tiep CLI va lap trinh phong thu, hoan toan tach biet khoi
+   logic nghiep vu cua process_order(). Logic nghiep vu da dat do phu tuyet doi 100% tren ca 8 duong thuc thi!

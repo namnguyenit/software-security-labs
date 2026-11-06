@@ -1,0 +1,19 @@
+--- a/dataset/condition_pairs.json
++++ b/dataset/condition_pairs.json
+@@ -57,6 +57,15 @@
+       "original": "borrowed_count <= max_limit",
+       "optimized": "Not(borrowed_count > max_limit)",
+       "expected_equivalent": true,
+       "note": "a <= b tuong duong NOT(a > b) tren mien so nguyen -> tuong duong logic."
++    },
++    {
++      "id": "COND-07",
++      "context": "Dieu kien ap dung ma giam gia VIP (Module Order / Transaction)",
++      "var_types": {"is_vip": "Bool", "order_total": "Int", "has_coupon": "Bool"},
++      "original": "Or(is_vip, And(order_total >= 1000, has_coupon))",
++      "optimized": "Or(is_vip, has_coupon)",
++      "expected_equivalent": false,
++      "note": "LOI LOGIC NGHIEP VU (CWE-840 / CWE-285): Ban toi uu bo quen dieu kien kiem tra order_total >= 1000, cho phep nguoi dung thuong co coupon gian lan giam gia VIP tren bat ky don hang nao."
+     }
+   ]
+ }

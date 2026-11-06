@@ -1,0 +1,16 @@
+=== KET QUA DO PHU MA BAN DAU (Statement Coverage qua gcov) ===
+So dong co the thuc thi : 66
+So dong da duoc chay    : 61
+Ty le phu (coverage)    : 92.42%
+
+Cac dong CHUA duoc kiem thu trong bo test hop den ban dau:
+  Dong 84: default: return "UNKNOWN";
+  Dong 93: fprintf(stderr, "Cach dung: %s <test_cases.csv>\n", argv[0]);
+  Dong 94: return 1;
+  Dong 98: fprintf(stderr, "[LOI] Khong mo duoc file: %s\n", argv[1]);
+  Dong 99: return 1;
+
+Nhan xet:
+Bo test hop den dat 18/18 PASS (100%) nhung chi dat 92.42% coverage.
+Cac dong chua phu thuoc nhanh xu ly loi CLI (thieu doi so, loi mo file)
+va nhanh fallback enum ma bo test hop den dac ta nghiep vu chua cover.

@@ -1,0 +1,241 @@
+        -:    0:Source:c:/mingw/include/string.h
+        -:    0:Graph:pin_validator.gcno
+        -:    0:Data:pin_validator.gcda
+        -:    0:Runs:3
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * string.h
+        -:    3: *
+        -:    4: * ISO-C standard header, with MSVC compatible extensions.
+        -:    5: *
+        -:    6: * $Id: string.h,v 9a1ff48b3525 2017/02/07 11:20:05 keithmarshall $
+        -:    7: *
+        -:    8: * Written by Colin Peters <colin@bird.fu.is.saga-u.ac.jp>
+        -:    9: * Copyright (C) 1997-2000, 2002-2004, 2007, 2009, 2015-2017,
+        -:   10: *  MinGW.org Project.
+        -:   11: *
+        -:   12: *
+        -:   13: * Permission is hereby granted, free of charge, to any person obtaining a
+        -:   14: * copy of this software and associated documentation files (the "Software"),
+        -:   15: * to deal in the Software without restriction, including without limitation
+        -:   16: * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+        -:   17: * and/or sell copies of the Software, and to permit persons to whom the
+        -:   18: * Software is furnished to do so, subject to the following conditions:
+        -:   19: *
+        -:   20: * The above copyright notice, this permission notice, and the following
+        -:   21: * disclaimer shall be included in all copies or substantial portions of
+        -:   22: * the Software.
+        -:   23: *
+        -:   24: * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+        -:   25: * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        -:   26: * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+        -:   27: * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        -:   28: * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+        -:   29: * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OF OR OTHER
+        -:   30: * DEALINGS IN THE SOFTWARE.
+        -:   31: *
+        -:   32: */
+        -:   33:#ifndef _STRING_H
+        -:   34:#pragma GCC system_header
+        -:   35:#define _STRING_H
+        -:   36:
+        -:   37:/* All MinGW system headers must include this...
+        -:   38: */
+        -:   39:#include <_mingw.h>
+        -:   40:
+        -:   41:#ifndef RC_INVOKED
+        -:   42:/* ISO-C requires this header to expose definitions for NULL and size_t,
+        -:   43: * retaining compatiblity with their fundamental <stddef.h> definitions.
+        -:   44: */
+        -:   45:#define __need_NULL
+        -:   46:#define __need_size_t
+        -:   47:#ifndef __STRICT_ANSI__
+        -:   48: /* MSVC extends this requirement to include a definition of wchar_t,
+        -:   49:  * (which contravenes strict ISO-C standards conformity).
+        -:   50:  */
+        -:   51:# define __need_wchar_t
+        -:   52:#endif
+        -:   53:#include <stddef.h>
+        -:   54:
+        -:   55:#if _EMULATE_GLIBC
+        -:   56:/* GNU's glibc declares strcasecmp() and strncasecmp() in <string.h>,
+        -:   57: * contravening POSIX.1-2008 which requires them to be declared only in
+        -:   58: * <strings.h>; we may emulate this anomalous glibc behaviour, which is
+        -:   59: * ostensibly to support BSD usage, (in spite of such usage now being
+        -:   60: * obsolete in BSD), by simply including our <strings.h> here.
+        -:   61: */
+        -:   62:#include <strings.h>
+        -:   63:#endif
+        -:   64:
+        -:   65:_BEGIN_C_DECLS
+        -:   66:
+        -:   67:#define __STRING_H_SOURCED__
+        -:   68:/* Prototypes for the ISO-C Standard library string functions.
+        -:   69: */
+        -:   70:_CRTIMP __cdecl __MINGW_NOTHROW  void *memchr (const void *, int, size_t) __MINGW_ATTRIB_PURE;
+        -:   71:_CRTIMP __cdecl __MINGW_NOTHROW  int memcmp (const void *, const void *, size_t) __MINGW_ATTRIB_PURE;
+        -:   72:_CRTIMP __cdecl __MINGW_NOTHROW  void *memcpy (void *, const void *, size_t);
+        -:   73:_CRTIMP __cdecl __MINGW_NOTHROW  void *memmove (void *, const void *, size_t);
+        -:   74:_CRTIMP __cdecl __MINGW_NOTHROW  void *memset (void *, int, size_t);
+        -:   75:_CRTIMP __cdecl __MINGW_NOTHROW  char *strcat (char *, const char *);
+        -:   76:_CRTIMP __cdecl __MINGW_NOTHROW  char *strchr (const char *, int) __MINGW_ATTRIB_PURE;
+        -:   77:_CRTIMP __cdecl __MINGW_NOTHROW  int strcmp (const char *, const char *) __MINGW_ATTRIB_PURE;
+        -:   78:_CRTIMP __cdecl __MINGW_NOTHROW  int strcoll (const char *, const char *); /* Compare using locale */
+        -:   79:_CRTIMP __cdecl __MINGW_NOTHROW  char *strcpy (char *, const char *);
+        -:   80:_CRTIMP __cdecl __MINGW_NOTHROW  size_t strcspn (const char *, const char *) __MINGW_ATTRIB_PURE;
+        -:   81:_CRTIMP __cdecl __MINGW_NOTHROW  char *strerror (int); /* NOTE: NOT an old name wrapper. */
+        -:   82:
+        -:   83:_CRTIMP __cdecl __MINGW_NOTHROW  size_t strlen (const char *) __MINGW_ATTRIB_PURE;
+        -:   84:_CRTIMP __cdecl __MINGW_NOTHROW  char *strncat (char *, const char *, size_t);
+        -:   85:_CRTIMP __cdecl __MINGW_NOTHROW  int strncmp (const char *, const char *, size_t) __MINGW_ATTRIB_PURE;
+        -:   86:_CRTIMP __cdecl __MINGW_NOTHROW  char *strncpy (char *, const char *, size_t);
+        -:   87:_CRTIMP __cdecl __MINGW_NOTHROW  char *strpbrk (const char *, const char *) __MINGW_ATTRIB_PURE;
+        -:   88:_CRTIMP __cdecl __MINGW_NOTHROW  char *strrchr (const char *, int) __MINGW_ATTRIB_PURE;
+        -:   89:_CRTIMP __cdecl __MINGW_NOTHROW  size_t strspn (const char *, const char *) __MINGW_ATTRIB_PURE;
+        -:   90:_CRTIMP __cdecl __MINGW_NOTHROW  char *strstr (const char *, const char *) __MINGW_ATTRIB_PURE;
+        -:   91:_CRTIMP __cdecl __MINGW_NOTHROW  char *strtok (char *, const char *);
+        -:   92:_CRTIMP __cdecl __MINGW_NOTHROW  size_t strxfrm (char *, const char *, size_t);
+        -:   93:
+        -:   94:#ifndef __STRICT_ANSI__
+        -:   95:/* Extra non-ANSI functions provided by the CRTDLL library
+        -:   96: */
+        -:   97:_CRTIMP __cdecl __MINGW_NOTHROW  char *_strerror (const char *);
+        -:   98:_CRTIMP __cdecl __MINGW_NOTHROW  void *_memccpy (void *, const void *, int, size_t);
+        -:   99:_CRTIMP __cdecl __MINGW_NOTHROW  int _memicmp (const void *, const void *, size_t);
+        -:  100:_CRTIMP __cdecl __MINGW_NOTHROW  char *_strdup (const char *) __MINGW_ATTRIB_MALLOC;
+        -:  101:_CRTIMP __cdecl __MINGW_NOTHROW  int _strcmpi (const char *, const char *);
+        -:  102:_CRTIMP __cdecl __MINGW_NOTHROW  int _stricoll (const char *, const char *);
+        -:  103:_CRTIMP __cdecl __MINGW_NOTHROW  char *_strlwr (char *);
+        -:  104:_CRTIMP __cdecl __MINGW_NOTHROW  char *_strnset (char *, int, size_t);
+        -:  105:_CRTIMP __cdecl __MINGW_NOTHROW  char *_strrev (char *);
+        -:  106:_CRTIMP __cdecl __MINGW_NOTHROW  char *_strset (char *, int);
+        -:  107:_CRTIMP __cdecl __MINGW_NOTHROW  char *_strupr (char *);
+        -:  108:_CRTIMP __cdecl __MINGW_NOTHROW  void _swab (const char *, char *, size_t);
+        -:  109:
+        -:  110:#if !_EMULATE_GLIBC
+        -:  111:/* MSVC's non-ANSI _stricmp() and _strnicmp() functions must also be
+        -:  112: * prototyped here, but we need to share them with <strings.h>, where
+        -:  113: * we declare their POSIX strcasecmp() and strncasecmp() equivalents;
+        -:  114: * get the requisite prototypes by selective <strings.h> inclusion,
+        -:  115: * (noting that we've already done so, if emulating glibc, but if not,
+        -:  116: * we use quoted inclusion now, to ensure that we get our "strings.h",
+        -:  117: * which is equipped to support __STRING_H_SOURCED__ filtering).
+        -:  118: */
+        -:  119:#include "strings.h"
+        -:  120:#endif
+        -:  121:
+        -:  122:# ifdef __MSVCRT__
+        -:  123: /* These were not present in the CRTDLL prior to the first release of
+        -:  124:  * MSVCRT.DLL, but are available in all versions of that library.
+        -:  125:  */
+        -:  126:_CRTIMP __cdecl __MINGW_NOTHROW  int _strncoll(const char *, const char *, size_t);
+        -:  127:_CRTIMP __cdecl __MINGW_NOTHROW  int _strnicoll(const char *, const char *, size_t);
+        -:  128:# endif
+        -:  129:
+        -:  130:# ifndef _NO_OLDNAMES
+        -:  131: /* Non-underscore decorated versions of non-ANSI functions. They live in the
+        -:  132:  * OLDNAMES libraries, whence they provide a little extra portability.
+        -:  133:  */
+        -:  134:_CRTIMP __cdecl __MINGW_NOTHROW  void *memccpy (void *, const void *, int, size_t);
+        -:  135:_CRTIMP __cdecl __MINGW_NOTHROW  int memicmp (const void *, const void *, size_t);
+        -:  136:_CRTIMP __cdecl __MINGW_NOTHROW  char *strdup (const char *) __MINGW_ATTRIB_MALLOC;
+        -:  137:_CRTIMP __cdecl __MINGW_NOTHROW  int strcmpi (const char *, const char *);
+        -:  138:_CRTIMP __cdecl __MINGW_NOTHROW  int stricmp (const char *, const char *);
+        -:  139:_CRTIMP __cdecl __MINGW_NOTHROW  int stricoll (const char *, const char *);
+        -:  140:_CRTIMP __cdecl __MINGW_NOTHROW  char *strlwr (char *);
+        -:  141:_CRTIMP __cdecl __MINGW_NOTHROW  int strnicmp (const char *, const char *, size_t);
+        -:  142:_CRTIMP __cdecl __MINGW_NOTHROW  char *strnset (char *, int, size_t);
+        -:  143:_CRTIMP __cdecl __MINGW_NOTHROW  char *strrev (char *);
+        -:  144:_CRTIMP __cdecl __MINGW_NOTHROW  char *strset (char *, int);
+        -:  145:_CRTIMP __cdecl __MINGW_NOTHROW  char *strupr (char *);
+        -:  146:
+        -:  147:#  ifndef _UWIN
+        -:  148:  /* FIXME: Do we really care that UWin doesn't support this?  We are
+        -:  149:   * under no obligation to support UWin.
+        -:  150:   */
+        -:  151:_CRTIMP __cdecl __MINGW_NOTHROW  void swab (const char *, char *, size_t);
+        -:  152:
+        -:  153:#  endif /* ! _UWIN */
+        -:  154:# endif /* ! _NO_OLDNAMES */
+        -:  155:
+        -:  156:/* MSVC also expects <string.h> to declare duplicates of the wchar_t
+        -:  157: * string functions which are nominally declared in <wchar.h>, (which
+        -:  158: * is where ISO-C specifies that they should be declared).  For the
+        -:  159: * convenience of applications which rely on this Microsoft anomaly,
+        -:  160: * inclusion of <wchar.h>, within the current __STRING_H_SOURCED__
+        -:  161: * scope, will selectively expose the required function prototypes;
+        -:  162: * however, strictly ISO-C conforming applications should include
+        -:  163: * <wchar.h> directly; they should not rely on this MSVC specific
+        -:  164: * anomalous behaviour.  (We use the quoted form of inclusion here,
+        -:  165: * to ensure that we get our own "wchar.h", and not any predecessor
+        -:  166: * which may have been insinuated into the system include path, and
+        -:  167: * so could interfere with our mechanism for partial inclusion of
+        -:  168: * shared header content).
+        -:  169: */
+        -:  170:#include "wchar.h"
+        -:  171:
+        -:  172:#endif /* ! __STRICT_ANSI__ */
+        -:  173:
+        -:  174:#if _POSIX_C_SOURCE >= 200809L
+        -:  175:#if __MSVCRT_VERSION__ >= __MSVCR80_DLL
+        -:  176:/* MSVCR80.DLL adds a (mostly) POSIX.1-2008 conforming strnlen(); (it's
+        -:  177: * also available in MSVCRT.DLL from _WIN32_WINNT_VISTA onwards, but we
+        -:  178: * pretend otherwise, since recent GCC will try to use the function when
+        -:  179: * it can be found in libmsvcrt.a, so breaking it for use on WinXP and
+        -:  180: * earlier).
+        -:  181: */
+        -:  182:_CRTIMP __cdecl __MINGW_NOTHROW  char *strnlen (const char *, size_t);
+        -:  183:
+        -:  184:#else	/* MSVCRT.DLL || pre-MSVCR80.DLL */
+        -:  185:/* Emulation, to support recent POSIX.1; we prefer this for ALL versions
+        -:  186: * of MSVCRT.DLL, (even those which already provide strnlen()); to avoid
+        -:  187: * the GCC breakage noted above.  (Note that we implement strnlen() with
+        -:  188: * the alternative external name, __mingw_strnlen() in libmingwex.a, to
+        -:  189: * avoid possible link time collision with MSVCR80.DLL's implementation,
+        -:  190: * then map this to strnlen() via a __CRT_ALIAS, with stubs designated
+        -:  191: * for linking from within the appropriate oldname libraries.
+        -:  192: */
+        -:  193:extern size_t __mingw_strnlen (const char *, size_t);
+        -:  194:
+        -:  195:__JMPSTUB__(( LIB=coldname; FUNCTION=strnlen ))
+        -:  196:__CRT_ALIAS size_t strnlen (const char *__text, size_t __maxlen)
+       15:  197:{ return __mingw_strnlen (__text, __maxlen); }
+        -:  198:
+        -:  199:#endif	/* MSVCRT.DLL || pre-MSVCR80.DLL */
+        -:  200:#endif	/* _POSIX_C_SOURCE >= 200809L */
+        -:  201:
+        -:  202:#if _POSIX_C_SOURCE >= 200112L
+        -:  203:/* POSIX.1-2001 added a re-entrant variant of strerror(), which stores
+        -:  204: * the message text in a user supplied buffer, rather than in (possibly
+        -:  205: * volatile) system supplied storage.  Although inherently thread-safe,
+        -:  206: * Microsoft's strerror() also uses a potentially volatile buffer, (in
+        -:  207: * the sense that it is overwritten by successive calls within a single
+        -:  208: * thread); thus, we provide our own implementation of POSIX.1-2001's
+        -:  209: * strerror_r() function, to facilitate the return of non-volatile
+        -:  210: * copies of strerror()'s message text.
+        -:  211: */
+        -:  212:extern int strerror_r (int, char *, size_t);
+        -:  213:#endif
+        -:  214:
+        -:  215:#if __MSVCRT_VERSION__>=__MSVCR80_DLL || _WIN32_WINNT >= _WIN32_WINNT_VISTA
+        -:  216:/* MSVCR80.DLL introduced a safer, (erroneously so called "more secure"),
+        -:  217: * alternative to strerror(), named strerror_s(); it was later retrofitted
+        -:  218: * to MSVCRT.DLL, from the release of Windows-Vista onwards.
+        -:  219: */
+        -:  220:_CRTIMP __cdecl __MINGW_NOTHROW  int strerror_s (char *, size_t, int);
+        -:  221:
+        -:  222:#elif _POSIX_C_SOURCE >= 200112L
+        -:  223:/* For the benefit of pre-Vista MSVCRT.DLL users, we provide an approximate
+        -:  224: * emulation of strerror_s(), in terms of inline referral to POSIX.1-2001's
+        -:  225: * strerror_r() function.
+        -:  226: */
+        -:  227:__CRT_ALIAS int strerror_s (char *__buf, size_t __len, int __err)
+        -:  228:{ return strerror_r (__err, __buf, __len); }
+        -:  229:#endif
+        -:  230:
+        -:  231:#undef __STRING_H_SOURCED__
+        -:  232:
+        -:  233:_END_C_DECLS
+        -:  234:
+        -:  235:#endif	/* ! RC_INVOKED */
+        -:  236:#endif	/* !_STRING_H: $RCSfile: string.h,v $: end of file */

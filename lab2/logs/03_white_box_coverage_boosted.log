@@ -1,0 +1,39 @@
+[PASS] pin=482913   failed=0 expected=OK               actual=OK              
+[PASS] pin=739284   failed=1 expected=OK               actual=OK              
+[PASS] pin=482      failed=0 expected=WRONG_LENGTH     actual=WRONG_LENGTH    
+[PASS] pin=48291378 failed=0 expected=WRONG_LENGTH     actual=WRONG_LENGTH    
+[PASS] pin=         failed=0 expected=WRONG_LENGTH     actual=WRONG_LENGTH    
+[PASS] pin=48291    failed=0 expected=WRONG_LENGTH     actual=WRONG_LENGTH    
+[PASS] pin=482913   failed=0 expected=OK               actual=OK              
+[PASS] pin=4829137  failed=0 expected=WRONG_LENGTH     actual=WRONG_LENGTH    
+[PASS] pin=48a913   failed=0 expected=NON_DIGIT        actual=NON_DIGIT       
+[PASS] pin=48 913   failed=0 expected=NON_DIGIT        actual=NON_DIGIT       
+[PASS] pin=-89213   failed=0 expected=NON_DIGIT        actual=NON_DIGIT       
+[PASS] pin=123456   failed=0 expected=SEQUENTIAL_WEAK  actual=SEQUENTIAL_WEAK 
+[PASS] pin=654321   failed=0 expected=SEQUENTIAL_WEAK  actual=SEQUENTIAL_WEAK 
+[PASS] pin=112233   failed=0 expected=OK               actual=OK              
+[PASS] pin=482913   failed=2 expected=OK               actual=OK              
+[PASS] pin=482913   failed=3 expected=ACCOUNT_LOCKED   actual=ACCOUNT_LOCKED  
+[PASS] pin=482913   failed=4 expected=ACCOUNT_LOCKED   actual=ACCOUNT_LOCKED  
+[PASS] pin=NULL     failed=0 expected=NULL_INPUT       actual=NULL_INPUT      
+
+Tong: 18/18 test PASS
+
+=== KET QUA DO PHU MA BAN DAU (Statement Coverage qua gcov) ===
+So dong co the thuc thi : 66
+So dong da duoc chay    : 61
+Ty le phu (coverage)    : 92.42%
+
+Cac dong CHUA duoc kiem thu trong bo test hop den ban dau:
+  Dong 84: default: return "UNKNOWN";
+  Dong 93: fprintf(stderr, "Cach dung: %s <test_cases.csv>\n", argv[0]);
+  Dong 94: return 1;
+  Dong 98: fprintf(stderr, "[LOI] Khong mo duoc file: %s\n", argv[1]);
+  Dong 99: return 1;
+
+--- KICH HOAT BO SUNG TEST CASE HOP TRANG (White-box Coverage Boost) ---
+So dong da duoc chay sau khi bo sung : 65 / 66
+Ty le phu moi sau bo sung            : 98.48%
+
+Cac dong con lai chua duoc kiem thu:
+  Dong 84: default: return "UNKNOWN";

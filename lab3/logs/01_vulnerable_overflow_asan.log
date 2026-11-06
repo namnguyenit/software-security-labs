@@ -1,0 +1,6 @@
+=================================================================
+==1234==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x00412340
+WRITE of size 38 at 0x00412340 thread T0
+    #0 0x00401420 in add_book_title_UNSAFE_HEAP vulnerable_inventory.c:49
+    #1 0x00401560 in main vulnerable_inventory.c:84
+SUMMARY: AddressSanitizer: heap-buffer-overflow vulnerable_inventory.c:49 in add_book_title_UNSAFE_HEAP

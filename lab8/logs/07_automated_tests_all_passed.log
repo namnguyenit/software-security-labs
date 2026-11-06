@@ -1,0 +1,10 @@
+=== KET QUA CHAY BO TEST TU DONG (TESTS/TEST_FUZZING.PY) ===
+Lenh: python tests/test_fuzzing.py
+Exit code: 0
+
+[PASS] test_normal_inputs_do_not_crash
+[PASS] test_known_crash_input_triggers_asan
+[PASS] test_whitebox_fuzzer_finds_crash_within_budget
+[PASS] test_blackbox_fuzzer_fails_within_same_budget
+
+4/4 test da PASS

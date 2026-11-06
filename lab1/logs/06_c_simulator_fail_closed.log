@@ -1,0 +1,6 @@
+=== Access Simulator (C) - da nap 5 trang thai, 8 chuyen tiep ===
+Trang thai khoi tao: S0 (Locked_Idle) [locked]
+  --(insert_card)--> S1 (Authenticating) [locked]
+  [BI TU CHOI] su kien 'operator_reset' khong hop le tai trang thai 'S1' (fail-closed: giu nguyen trang thai)
+=== Trang thai cuoi cung: S1 ===
+So su kien bi tu choi (khong hop le): 1

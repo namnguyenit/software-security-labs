@@ -1,0 +1,40 @@
+=== GIAI DAP YEU CAU BUOC 4: PHAN TICH XAC SUAT VA SO LAN THU VOI CHUOI 10 KY TU ===
+
+CAU HOI:
+"Neu chuong trinh muc tieu co mot kenh debug voi dieu kien kich hoat la mot chuoi 10 ky tu cu the
+(thay vi 6 ky tu), uoc luong fuzzing hop den thuan tuy (khong dictionary) can trung binh bao nhieu lan thu
+de tim ra (gia su bang chu cai 68 ky tu in duoc)? So sanh voi ngan sach thuc te kha thi trong CI/CD (vai phut chay)?"
+
+LOI GIAI TOAN HOC VA PHAN TICH CHI TIET:
+
+1. UOC LUONG SO LAN THU CUA FUZZING HOP DEN THUAN TUY (BLACK-BOX):
+   - So ky tu can doan dung lien tiep: L = 10 ky tu.
+   - Kich thuoc khong gian ky tu: N = 68 ky tu in duoc (chu hoa, chu thuong, chu so, dau : , . - _).
+   - Tong so to hop chuoi do dai 10: N^L = 68^10.
+   - Tinh toan cu the:
+       68^10 = 2,114,242,445,549,928,448 ≈ 2.11 x 10^18 to hop!
+   - Vi moi lan thu la doc lap va ngau nhien deu, xac suat doan dung trong 1 lan la:
+       P = 1 / (68^10) ≈ 4.73 x 10^(-19).
+   - So lan thu trung binh de xuat hien lan dau tien (ky vong phan phoi hinh hoc E = 1/P):
+       E ≈ 2.11 x 10^18 lan thu!
+
+2. QUY DOI RA THOI GIAN THUC TE:
+   - Gia su fuzzer cuc ky toi uu, chay duoc 1,000 lan thu / giay (1,000 executions/sec):
+       Thoi gian can thiet = (2.11 x 10^18) / 1,000 = 2.11 x 10^15 giay.
+       Quy doi ra nam      = (2.11 x 10^15) / (86400 x 365.25) ≈ 67,000,000 nam (67 TRIEU NAM)!
+
+3. SO SANH VOI NGAN SACH THUC TE KHA THI TRONG CI/CD:
+   - Trong mot pipeline CI/CD tu dong, giai doan fuzzing thuong chi duoc cap ngan sach tu 5 den 10 phut.
+   - Voi 5 phut = 300 giay, tong so lan thu toi da la:
+       Ngan sach CI/CD = 300 giay x 1,000 exec/s = 300,000 lan thu (3 x 10^5 lan).
+   - Xac suat de fuzzer hop den tim ra loi trong pipeline CI/CD la:
+       P_success ≈ (3 x 10^5) / (2.11 x 10^18) ≈ 1.42 x 10^(-13) (GAN NHU BANG 0 TUYET DOI!).
+
+4. SO SANH VOI FUZZING HOP TRANG / COVERAGE-GUIDED (AFL):
+   - Coverage-guided fuzzer khong giai toan bo 10 ky tu cung luc.
+   - Khi fuzzer doan dung ky tu thu nhat: nhanh ma so sanh thanh cong -> sinh coverage moi -> fuzzer giu lai chuoi.
+   - Fuzzer chi can tiep tuc dot bien ky tu thu hai tren nen tang ky tu thu nhat da dung.
+   - Do phuc tap giam tu HAM MU O(N^L) xuong TUYEN TINH O(N x L):
+       So lan thu trung binh = 68 x 10 = 680 lan thu!
+   - Voi toc do 1,000 exec/s, fuzzer hop trang chi mat CHUA DAY 1 GIAY de pha vo chuoi 10 ky tu nay!
+   - Day la minh chung ro rang nhat giai thich vi sao fuzzing hop trang la cuoc cach mang trong kiem thu bao mat.

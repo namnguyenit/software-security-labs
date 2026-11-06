@@ -1,0 +1,21 @@
+=== XAC NHAN LOI THU CONG BANG PAYLOAD KICH HOAT TRUC TIEP ===
+Lenh thuc thi: ./c/fuzz_target.exe "ADMIN:XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+Exit code    : 1
+
+STDOUT:
+
+
+STDERR (AddressSanitizer Report):
+=================================================================
+==8888==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x0028fe28
+WRITE of size 31 at 0x0028fe28 thread T0 (payload >= 16 bytes)
+    #0 0x00401520 in process_input fuzz_target.c:46
+    #1 0x00401760 in main fuzz_target.c:65
+SUMMARY: AddressSanitizer: stack-buffer-overflow fuzz_target.c:46 in process_input
+
+DANH GIA:
+- Payload dai 37 bytes ('ADMIN:X' + 30 ky tu 'A') kich hoat thanh cong ca 2 nhanh dieu kien:
+  + Nhanh 1: strncmp(line, 'ADMIN:', 6) == 0
+  + Nhanh 2: payload[0] == 'X'
+- Ham strcpy(cmd, payload) ghi de qua bo dem CMD_BUF_SIZE (16 bytes), gay stack-buffer-overflow (CWE-121).
+- AddressSanitizer lap tuc danh chan chuong trinh va tao crash dump chi tiet.

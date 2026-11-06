@@ -1,0 +1,21 @@
+# Binaries and executables over GitHub 100MB limit
+*.exe
+*.dll
+*.so
+*.dylib
+*.zip
+tmp/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+
+# IDE files
+.vscode/
+.idea/
+*.swp

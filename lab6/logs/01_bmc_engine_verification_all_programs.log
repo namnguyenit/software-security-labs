@@ -1,0 +1,25 @@
+[BMC-01-SAFE-FULL-SCAN] Duyet toan bo catalog tu dau: for (i = 0; i < array_size; i++) access catalog[i]. Vong lap dung chinh xac bang kich thuoc mang.
+  Ket qua BMC : SAFE  (ky vong: SAFE)  [OK]
+  Giai thich  : Khong tim thay vi pham trong 10 buoc unwind dau tien (SAFE-UP-TO-BOUND, khong phai chung minh an toan vo han).
+
+[BMC-02-UNSAFE-OFFBYONE] Loi off-by-one kinh dien: for (i = 0; i <= array_size; i++) access catalog[i] - dieu kien dung dung '<=' thay vi '<', truy cap catalog[array_size] la vuot bien.
+  Ket qua BMC : UNSAFE  (ky vong: UNSAFE)  [OK]
+  Giai thich  : Tai buoc unwind i=10, ton tai gia tri lam truy cap catalog[index] voi index nam ngoai [0, 10).
+  Nhan chung  : {'unwind_step_i': 10, 'index_accessed': 10}
+
+[BMC-03-UNSAFE-SYMBOLIC-OFFSET] Truy cap catalog[base_index + i] voi base_index la tham so dau vao nguoi dung (vi du: vi tri bat dau tim kiem phan trang - pagination offset), KHONG duoc kiem tra rang buoc truoc vong lap noi bo quet them 5 phan tu.
+  Ket qua BMC : UNSAFE  (ky vong: UNSAFE)  [OK]
+  Giai thich  : Tai buoc unwind i=1, ton tai gia tri lam truy cap catalog[index] voi index nam ngoai [0, 10).
+  Nhan chung  : {'base_index': 9, 'unwind_step_i': 1, 'index_accessed': 10}
+
+[BMC-04-SAFE-SYMBOLIC-OFFSET-BOUNDED] Giong BMC-03 nhung da them dieu kien tien xu ly gioi han base_index <= array_size - unwind_bound (kiem tra truoc vong lap) -> an toan trong pham vi unwind da cho.
+  Ket qua BMC : SAFE  (ky vong: SAFE)  [OK]
+  Giai thich  : Khong tim thay vi pham trong 5 buoc unwind dau tien (SAFE-UP-TO-BOUND, khong phai chung minh an toan vo han).
+
+[BMC-05-UNSAFE-REVERSE-SCAN] Truy cap mang dem nguoc catalog[array_size - i] voi i tu 0..array_size. Tai i = 0, index = array_size = 10 gay vuot bien ngay tai buoc unwind dau tien.
+  Ket qua BMC : UNSAFE  (ky vong: UNSAFE)  [OK]
+  Giai thich  : Tai buoc unwind i=0, ton tai gia tri lam truy cap catalog[index] voi index nam ngoai [0, 10).
+  Nhan chung  : {'unwind_step_i': 0, 'index_accessed': 10}
+
+Tong ket: 5/5 chuong trinh khop ky vong.
+Ket qua da luu: D:\Downloads\Safe Application\lab6\code\dataset\bmc_results.json

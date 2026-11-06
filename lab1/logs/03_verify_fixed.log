@@ -1,0 +1,27 @@
+=== He thong: AccessControl-Door-v3-FIXED ===
+So trang thai khai bao: 5
+So trang thai co the den duoc (reachable): 5 / 5
+
+[P1_SAFETY_NO_UNLOCK_WITHOUT_AUTH] Khong bao gio ton tai trang thai unlocked ma khong authenticated.
+  Cong thuc : unlocked AND NOT authenticated
+  Ket qua   : THOA MAN (PASS)
+
+[P2_SAFETY_ALARM_ON_TAMPER] Moi khi phat hien tamper, he thong phai o trang thai bao dong (alarm).
+  Cong thuc : tamper -> alarm
+  Ket qua   : THOA MAN (PASS)
+
+[P3_REACHABILITY_UNLOCK] Ton tai it nhat mot duong di tu init den unlocked (tinh kha thi).
+  Cong thuc : unlocked
+  Ket qua   : THOA MAN (PASS)
+  Duong di  : Locked_Idle -> Authenticating -> Authenticated_Unlock
+  Su kien   : insert_card , auth_success
+
+[P4_SAFETY_MUTUAL_EXCLUSION_UNLOCK_ALARM] Khong bao gio dong thoi vua unlocked vua alarm (loai tru lan nhau).
+  Cong thuc : unlocked AND alarm
+  Ket qua   : THOA MAN (PASS)
+
+[P5_REACHABILITY_TAMPER_NO_VACUITY] Trang thai tamper phai dat duoc (tranh vacuous truth cho P2).
+  Cong thuc : tamper
+  Ket qua   : THOA MAN (PASS)
+  Duong di  : Locked_Idle -> TamperDetected_Alarm
+  Su kien   : tamper_sensor

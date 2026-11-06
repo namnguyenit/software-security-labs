@@ -1,0 +1,152 @@
+        -:    0:Source:order_processor.c
+        -:    0:Graph:order_processor.gcno
+        -:    0:Data:order_processor.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Lab 7 - Module Order Processing (Xu ly Don hang)
+        -:    3: * ====================================================
+        -:    4: * Chuong 4: 4.1 Gioi thieu kiem thu bao mat, 4.2 Phu ma nguon (code coverage),
+        -:    5: *           4.3 Theo doi thuc thi chuong trinh, 4.4 Tao duong thuc thi chuong trinh
+        -:    6: *
+        -:    7: * Ham can phan tich dong: process_order()
+        -:    8: *   Dac ta don gian hoa:
+        -:    9: *     - So luong (quantity) phai > 0 va <= 100, neu khong -> ORDER_INVALID_QTY.
+        -:   10: *     - Neu is_member (thanh vien) VA quantity >= 10 -> giam gia 15%.
+        -:   11: *     - Neu is_member (khong du dieu kien tren) -> giam gia 5%.
+        -:   12: *     - Neu KHONG la thanh vien VA quantity >= 20 -> giam gia 10% (khuyen
+        -:   13: *       mai mua si cho khach vang lai).
+        -:   14: *     - Neu unit_price <= 0 -> ORDER_INVALID_PRICE.
+        -:   15: *     - Tong tien = quantity * unit_price * (1 - discount).
+        -:   16: *     - Neu tong tien (sau giam gia) > 10,000,000 (VND) -> yeu cau
+        -:   17: *       APPROVAL_REQUIRED (canh bao gian lan/don hang bat thuong).
+        -:   18: *
+        -:   19: * Ham nay CO NHIEU NHANH LONG NHAU, la vi du dien hinh de minh hoa code
+        -:   20: * coverage: mot bo test co the PASS toan bo nhung khong phu het cac to
+        -:   21: * hop nhanh (branch combination) - dan den lo hong kiem thu.
+        -:   22: *
+        -:   23: * Bien dich co --coverage de sinh du lieu cho gcov:
+        -:   24: *   gcc --coverage -DORDER_CLI_MAIN -o order_processor order_processor.c
+        -:   25: */
+        -:   26:
+        -:   27:#include <stdio.h>
+        -:   28:#include <stdlib.h>
+        -:   29:#include <string.h>
+        -:   30:
+        -:   31:typedef enum {
+        -:   32:    ORDER_OK = 0,
+        -:   33:    ORDER_INVALID_QTY = 1,
+        -:   34:    ORDER_INVALID_PRICE = 2,
+        -:   35:    ORDER_APPROVAL_REQUIRED = 3
+        -:   36:} OrderStatus;
+        -:   37:
+        -:   38:typedef struct {
+        -:   39:    int quantity;
+        -:   40:    double unit_price;
+        -:   41:    int is_member;
+        -:   42:    double discount_applied;
+        -:   43:    double total_amount;
+        -:   44:} OrderResult;
+        -:   45:
+        -:   46:#define APPROVAL_THRESHOLD 10000000.0
+        -:   47:
+        9:   48:OrderStatus process_order(int quantity, double unit_price, int is_member, OrderResult *out) {
+        9:   49:    if (out == NULL) return ORDER_INVALID_QTY; /* phong thu (defensive) */
+        -:   50:
+        9:   51:    if (quantity <= 0 || quantity > 100) {
+        2:   52:        return ORDER_INVALID_QTY;
+        -:   53:    }
+        7:   54:    if (unit_price <= 0.0) {
+        2:   55:        return ORDER_INVALID_PRICE;
+        -:   56:    }
+        -:   57:
+        5:   58:    double discount = 0.0;
+        5:   59:    if (is_member) {
+        3:   60:        if (quantity >= 10) {
+        2:   61:            discount = 0.15;
+        -:   62:        } else {
+        1:   63:            discount = 0.05;
+        -:   64:        }
+        -:   65:    } else {
+        2:   66:        if (quantity >= 20) {
+        1:   67:            discount = 0.10;
+        -:   68:        }
+        -:   69:        /* else: discount = 0.0 (khach vang lai, mua le) */
+        -:   70:    }
+        -:   71:
+        5:   72:    double total = quantity * unit_price * (1.0 - discount);
+        -:   73:
+        5:   74:    out->quantity = quantity;
+        5:   75:    out->unit_price = unit_price;
+        5:   76:    out->is_member = is_member;
+        5:   77:    out->discount_applied = discount;
+        5:   78:    out->total_amount = total;
+        -:   79:
+        5:   80:    if (total > APPROVAL_THRESHOLD) {
+        1:   81:        return ORDER_APPROVAL_REQUIRED;
+        -:   82:    }
+        4:   83:    return ORDER_OK;
+        -:   84:}
+        -:   85:
+        9:   86:const char *order_status_to_string(OrderStatus s) {
+        9:   87:    switch (s) {
+        4:   88:        case ORDER_OK: return "OK";
+        2:   89:        case ORDER_INVALID_QTY: return "INVALID_QTY";
+        2:   90:        case ORDER_INVALID_PRICE: return "INVALID_PRICE";
+        1:   91:        case ORDER_APPROVAL_REQUIRED: return "APPROVAL_REQUIRED";
+    #####:   92:        default: return "UNKNOWN";
+        -:   93:    }
+        -:   94:}
+        -:   95:
+        -:   96:#ifdef ORDER_CLI_MAIN
+        -:   97:/* CLI doc file CSV dinh dang: quantity,unit_price,is_member,expected_status
+        -:   98: * Chay tung dong nhu mot test case, in ket qua PASS/FAIL. */
+        1:   99:int main(int argc, char *argv[]) {
+        1:  100:    if (argc < 2) {
+    #####:  101:        fprintf(stderr, "Cach dung: %s <test_inputs.csv>\n", argv[0]);
+    #####:  102:        return 1;
+        -:  103:    }
+        1:  104:    FILE *fp = fopen(argv[1], "r");
+        1:  105:    if (!fp) {
+    #####:  106:        fprintf(stderr, "[LOI] Khong mo duoc file: %s\n", argv[1]);
+    #####:  107:        return 1;
+        -:  108:    }
+        -:  109:    char line[256];
+        1:  110:    int total = 0, passed = 0;
+        1:  111:    fgets(line, sizeof(line), fp); /* bo qua header */
+       11:  112:    while (fgets(line, sizeof(line), fp)) {
+        9:  113:        line[strcspn(line, "\r\n")] = '\0';
+        9:  114:        if (line[0] == '\0') continue;
+        -:  115:
+        9:  116:        char *tok = strtok(line, ",");
+        9:  117:        if (!tok) continue;
+        9:  118:        int quantity = atoi(tok);
+        9:  119:        tok = strtok(NULL, ",");
+        9:  120:        if (!tok) continue;
+        9:  121:        double unit_price = atof(tok);
+        9:  122:        tok = strtok(NULL, ",");
+        9:  123:        if (!tok) continue;
+        9:  124:        int is_member = atoi(tok);
+        9:  125:        tok = strtok(NULL, ",");
+        9:  126:        if (!tok) continue;
+        -:  127:        char expected[32];
+        9:  128:        snprintf(expected, sizeof(expected), "%s", tok);
+        -:  129:
+        -:  130:        OrderResult result;
+        9:  131:        memset(&result, 0, sizeof(result));
+        9:  132:        OrderStatus status = process_order(quantity, unit_price, is_member, &result);
+        9:  133:        const char *actual = order_status_to_string(status);
+        -:  134:
+        9:  135:        total++;
+        9:  136:        int ok = (strcmp(actual, expected) == 0);
+        9:  137:        if (ok) passed++;
+        9:  138:        printf("[%s] qty=%-4d price=%-10.1f member=%d expected=%-18s actual=%-18s "
+        -:  139:               "discount=%.2f total=%.1f\n",
+        -:  140:               ok ? "PASS" : "FAIL", quantity, unit_price, is_member,
+        -:  141:               expected, actual, result.discount_applied, result.total_amount);
+        -:  142:    }
+        1:  143:    fclose(fp);
+        1:  144:    printf("\nTong: %d/%d test PASS\n", passed, total);
+        1:  145:    return (passed == total) ? 0 : 2;
+        -:  146:}
+        -:  147:#endif

@@ -1,0 +1,9 @@
+=== Access Simulator (C) - da nap 5 trang thai, 9 chuyen tiep ===
+Trang thai khoi tao: S0 (Locked_Idle) [locked]
+  --(insert_card)--> S1 (Authenticating) [locked]
+  --(auth_success)--> S2 (Authenticated_Unlock) [unlocked|authenticated]
+  --(door_closed_timeout)--> S0 (Locked_Idle) [locked]
+  --(tamper_sensor)--> S4 (TamperDetected_Alarm) [locked|alarm|tamper]
+  --(operator_reset)--> S0 (Locked_Idle) [locked]
+=== Trang thai cuoi cung: S0 ===
+So su kien bi tu choi (khong hop le): 0

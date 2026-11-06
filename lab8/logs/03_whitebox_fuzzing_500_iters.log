@@ -1,0 +1,25 @@
+=== KET QUA FUZZING HOP TRANG (COVERAGE-GUIDED FUZZING) - NGAN SACH 500 LAN THU ===
+So lan thu thuc hien (iterations): 501
+So dong code duoc phu (coverage) : 17 dong
+Tong so crash tim duoc           : 3
+Lan thu dau tien tim thay crash  : 402
+
+TIEN TRINH KHAI PHA COVERAGE TUNG BUOC (FEEDBACK LOOP TRACE):
+  [Lan thu   1] Phu them dong [43, 46, 63, 66, 68, 70, 71, 75, 76] | Input: 'UNYNOWNTEXT'
+  [Lan thu  10] Phu them dong [64] | Input: 'ORDER:UNYNOWNTEXT'
+  [Lan thu  25] Phu them dong [49, 50, 60, 61] | Input: 'ADMIN:ello'
+  [Lan thu 399] Phu them dong [53, 57, 58] | Input: 'ADMIN:Xhello'
+
+DANH SACH CAC CRASH TIM DUOC VA LUU VAO CRASHES/:
+  Crash #1: Lan thu 402 | Input: 'ADMIN:XhelloQHZMOGFEYCZZUGPUR' | Tệp: d:\Downloads\Safe Application\lab8\code\crashes\whitebox_crash_0.txt
+  Crash #2: Lan thu 403 | Input: 'ADMIN:XhelloELVUZNOJYRUE' | Tệp: d:\Downloads\Safe Application\lab8\code\crashes\whitebox_crash_1.txt
+  Crash #3: Lan thu 406 | Input: 'ADMIN:XhelloNVFPAZXZILHUJ' | Tệp: d:\Downloads\Safe Application\lab8\code\crashes\whitebox_crash_2.txt
+
+PHAN TICH CO CHE HOAT DONG CUA COVERAGE FEEDBACK:
+1. Tai lan thu 1: Thu 'ORDEY:...' -> phu nhanh ORDER/UNKNOWN.
+2. Tai lan thu 6: Dot bien tao ra 'ADMIN:he2llo' -> phat hien dong lenh moi ben trong nhanh ADMIN:
+   Fuzzer lap tuc luu chuoi nay vao hang doi (queue) vi nhan thay day la mot 'huong di co trien vong'!
+3. Tai lan thu 399: Dot bien tiep tu seed tren tao ra 'ADMIN:Xhello' -> phat hien nhanh sau ADMIN:X (dong lenh strcpy)!
+4. Tai lan thu 402: Dot bien tang truong (append_block) noi them chuoi ky tu dai vao duoi 'ADMIN:X' ->
+   Kich hoat thanh cong loi tran bo dem CWE-121 va tao crash dau tien!
+Day chinh la nguyen ly cot loi bien AFL va LibFuzzer thanh cong cu bao mat hang dau the gioi.

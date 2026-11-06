@@ -1,0 +1,38 @@
+--- a/c/booklist_v1_buggy.c
++++ b/c/booklist_v2_fixed.c
+@@ -29,6 +29,10 @@
+ BookNode *list_insert_front(BookNode *head, const char *title, int year) {
+     BookNode *node = (BookNode *)malloc(sizeof(BookNode));
+-    /* LOI TINH VI #1: khong kiem tra node == NULL (CWE-476) */
++    if (node == NULL) {                       /* SUA loi #1: kiem tra malloc that bai */
++        fprintf(stderr, "[LOI] malloc that bai trong list_insert_front\n");
++        return head;
++    }
+     snprintf(node->title, TITLE_LEN, "%s", title);
+     node->year = year;
+     node->next = head;
+@@ -49,5 +53,6 @@
+             } else {
+                 prev->next = cur->next;
+             }
+-            /* LOI TINH VI #2: thieu free(cur) -> memory leak (CWE-401) */
++            free(cur);                        /* SUA loi #2: giai phong node da go bo */
+             return head;
+         }
+@@ -64,9 +69,5 @@
+-int list_count_UNSAFE(BookNode *head) {
+-    int count;              /* LOI TINH VI #3: doc bien chua khoi tao (CWE-457) */
+-    BookNode *cur = head;
+-    while (cur != NULL) {
+-        count++;
+-        cur = cur->next;
+-    }
+-    if (head == NULL) return count;
+-    return count;
++int list_count_SAFE(BookNode *head) {
++    int count = 0;                             /* SUA loi #3: khoi tao count = 0 ro rang */
++    for (BookNode *cur = head; cur != NULL; cur = cur->next) {
++        count++;
++    }
++    return count;
+ }

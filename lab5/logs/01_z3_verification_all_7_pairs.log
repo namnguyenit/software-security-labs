@@ -1,0 +1,47 @@
+[COND-01] Dieu kien mo khoa cua (module Access Control, tuong ung P1 Lab1)
+  P (original) : And(authenticated, unlocked_requested, Not(alarm_active))
+  Q (optimized): And(Not(Or(Not(authenticated), Not(unlocked_requested))), Not(alarm_active))
+  Ket qua      : TUONG DUONG (UNSAT tren P XOR Q)   [OK]
+  Ghi chu      : Ap dung luat De Morgan: NOT(NOT a OR NOT b) == a AND b -> tuong duong.
+
+[COND-02] Dieu kien khoa tai khoan (module Auth, tuong ung Lab2 validate_pin)
+  P (original) : failed_attempts >= 3
+  Q (optimized): failed_attempts > 3
+  Ket qua      : KHONG TUONG DUONG (SAT)   [OK]
+  Phan vi du   : {'failed_attempts': '3'}
+  Ghi chu      : LOI OFF-BY-ONE kinh dien: '>= 3' va '> 3' KHONG tuong duong tai failed_attempts == 3 (mo hop le o ban toi uu nhung phai khoa theo dac ta).
+
+[COND-03] Dieu kien PIN hop le ve mat do dai va chu so (Lab2, don gian hoa)
+  P (original) : And(len_ok, all_digits, not_sequential)
+  Q (optimized): And(all_digits, And(len_ok, not_sequential))
+  Ket qua      : TUONG DUONG (UNSAT tren P XOR Q)   [OK]
+  Ghi chu      : Phep AND co tinh giao hoan va ket hop -> doi thu tu / nhom lai khong lam thay doi ket qua.
+
+[COND-04] Dieu kien canh bao an toan tai trang thai (tuong ung thuoc tinh P2 Lab1)
+  P (original) : Implies(tamper, alarm)
+  Q (optimized): Or(Not(tamper), And(alarm, tamper))
+  Ket qua      : TUONG DUONG (UNSAT tren P XOR Q)   [OK]
+  Ghi chu      : a -> b tuong duong (NOT a) OR (b AND a) trong logic co dien (co the kiem chung bang bang chan tri hoac SMT).
+
+[COND-05] Dieu kien bo qua xac thuc sai lech (loi bao mat tiem an, module Auth)
+  P (original) : authenticated
+  Q (optimized): Or(authenticated, And(is_admin, bypass_flag))
+  Ket qua      : KHONG TUONG DUONG (SAT)   [OK]
+  Phan vi du   : {'bypass_flag': 'True', 'is_admin': 'True', 'authenticated': 'False'}
+  Ghi chu      : Ban 'toi uu' THEM mot duong bypass cho admin -> KHONG tuong duong, day chinh la mot 'backdoor' tiem an can bi tu choi khi review code.
+
+[COND-06] Dieu kien gioi han so luong sach muon toi da (module Inventory/Order, Lab7)
+  P (original) : borrowed_count <= max_limit
+  Q (optimized): Not(borrowed_count > max_limit)
+  Ket qua      : TUONG DUONG (UNSAT tren P XOR Q)   [OK]
+  Ghi chu      : a <= b tuong duong NOT(a > b) tren mien so nguyen -> tuong duong logic.
+
+[COND-07] Dieu kien ap dung ma giam gia VIP (Module Order / Transaction)
+  P (original) : Or(is_vip, And(order_total >= 1000, has_coupon))
+  Q (optimized): Or(is_vip, has_coupon)
+  Ket qua      : KHONG TUONG DUONG (SAT)   [OK]
+  Phan vi du   : {'has_coupon': 'True', 'order_total': '999', 'is_vip': 'False'}
+  Ghi chu      : LOI LOGIC NGHIEP VU (CWE-840 / CWE-285): Ban toi uu bo quen dieu kien kiem tra order_total >= 1000, cho phep nguoi dung thuong co coupon gian lan giam gia VIP tren bat ky don hang nao.
+
+Tong ket: 7/7 cap dieu kien khop du doan ky vong.
+Ket qua da luu: D:\Downloads\Safe Application\lab5\code\dataset\smt_verification_results.json

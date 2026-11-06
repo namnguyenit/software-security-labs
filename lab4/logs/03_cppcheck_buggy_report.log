@@ -1,0 +1,17 @@
+=== cppcheck: booklist_v1_buggy.c (PHIEN BAN CO LOI) ===
+  [WARNING] [CWE-457] dong 68: Uninitialized variable: count
+  [ERROR] [CWE-457] dong 34: Memory is allocated but not initialized: node
+  [STYLE] [CWE-665] dong 65: Variable 'count' is not assigned a value.
+  -> 2 finding lien quan bao mat (error/warning)
+
+=== cppcheck: booklist_v2_fixed.c (PHIEN BAN DA SUA) ===
+  -> 0 finding lien quan bao mat (error/warning)
+
+=== KET LUAN: giam 2 finding bao mat sau khi sua loi ===
+Luu y su pham: cppcheck la phan tich TINH (khong chay chuong trinh),
+phat hien tot loi 'uninitialized variable/data' nhung KHONG luon phat
+hien duoc loi 'memory leak theo luong dieu khien phuc tap' (data-flow
+giua nhieu nhanh return) - day la ly do Lab 3 da dung AddressSanitizer
+(phan tich DONG) de bat loai loi nay. Hai cong cu BO SUNG cho nhau.
+
+Ket qua da luu: D:\Downloads\Safe Application\lab4\code\dataset\cppcheck_comparison_results.json

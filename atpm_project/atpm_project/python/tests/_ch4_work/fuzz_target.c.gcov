@@ -1,0 +1,33 @@
+        -:    0:Source:fuzz_target.c
+        -:    0:Graph:fuzz_target.gcno
+        -:    0:Data:fuzz_target.gcda
+        -:    0:Runs:3758
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * fuzz_target.c -- Chuong 4: target don gian de minh hoa fuzzing.
+        -:    3: * check_magic() chi crash (NULL deref) khi input CHINH XAC la "FUZZ" (4 byte).
+        -:    4: * Bien dich voi --coverage de do code coverage (gcov) huong dan fuzzer.
+        -:    5: *
+        -:    6: * gcc --coverage -O0 -o fuzz_target fuzz_target.c
+        -:    7: */
+        -:    8:#include <stdio.h>
+        -:    9:#include <stdlib.h>
+        -:   10:
+     3758:   11:void check_magic(const char *buf, int len) {
+     3758:   12:    if (len < 1 || buf[0] != 'F') return;
+     1297:   13:    if (len < 2 || buf[1] != 'U') return;
+      413:   14:    if (len < 3 || buf[2] != 'Z') return;
+      103:   15:    if (len < 4 || buf[3] != 'Z') return;
+    #####:   16:    char *p = NULL;
+    #####:   17:    *p = 1;  // crash
+        -:   18:}
+        -:   19:
+     3758:   20:int main(int argc, char **argv) {
+     3758:   21:    FILE *f = fopen(argv[1], "rb");
+     3758:   22:    if (!f) return 0;
+        -:   23:    char buf[64];
+     3758:   24:    int len = fread(buf, 1, sizeof(buf), f);
+     3758:   25:    fclose(f);
+     3758:   26:    check_magic(buf, len);
+     3758:   27:    return 0;
+        -:   28:}

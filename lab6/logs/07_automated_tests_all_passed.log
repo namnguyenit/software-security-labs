@@ -1,0 +1,13 @@
+=== KET QUA CHAY BO TEST TU DONG (TESTS/TEST_BMC.PY) ===
+Lenh: python tests/test_bmc.py
+Exit code: 0
+
+[PASS] test_bmc_results_match_expectation
+[PASS] test_bmc03_witness_matches_c_runtime_bug
+[PASS] test_c_safe_full_scan_no_crash
+[PASS] test_c_symbolic_safe_with_precondition_rejects_bad_input
+[PASS] test_c_symbolic_safe_with_valid_input_runs_clean
+[PASS] test_c_offbyone_detected
+[PASS] test_c_reverse_scan_detected
+
+7/7 test da PASS

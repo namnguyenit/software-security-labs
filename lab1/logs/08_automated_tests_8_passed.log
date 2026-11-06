@@ -1,0 +1,10 @@
+[PASS] test_safe_model_all_properties_hold
+[PASS] test_buggy_model_violates_p1
+[PASS] test_buggy_model_reachability_still_holds
+[PASS] test_c_simulator_detects_runtime_violation
+[PASS] test_c_simulator_safe_sequence_no_warning
+[PASS] test_fixed_model_all_properties_hold
+[PASS] test_vacuous_pass_detected_on_buggy
+[PASS] test_c_simulator_fixed_sequence
+
+8/8 test da PASS

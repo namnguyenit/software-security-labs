@@ -1,0 +1,5 @@
+=================================================================
+==1234==ERROR: LeakSanitizer: detected memory leaks
+Direct leak of 360 byte(s) in 5 object(s) allocated from:
+    #0 0x004014f0 in demo_memory_leak vulnerable_inventory.c:68
+SUMMARY: AddressSanitizer: 360 byte(s) leaked in 5 allocation(s).

@@ -1,0 +1,82 @@
+        -:    0:Source:fuzz_target.c
+        -:    0:Graph:fuzz_target.gcno
+        -:    0:Data:fuzz_target.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Lab 8 - Fuzz Target (module Order Processing - kenh lenh quan tri an - ADMIN debug channel)
+        -:    3: * ================================================================================================
+        -:    4: * Chuong 4: 4.5 Kiem thu hop den (black-box fuzzing), 4.6 Kiem thu hop trang (white-box fuzzing)
+        -:    5: *
+        -:    6: * Kich ban: mot lap trinh vien de lai mot "kenh lenh go loi" (debug backdoor)
+        -:    7: * trong bo phan tich cu phap don hang: neu dong dau vao bat dau bang tien
+        -:    8: * to "ADMIN:", phan con lai duoc sao chep vao mot bo dem CO DINH bang
+        -:    9: * strcpy() KHONG kiem tra do dai - day la mot loi CWE-121 kinh dien, NHUNG
+        -:   10: * rat KHO tim bang fuzzing thuan random vi dieu kien kich hoat ("ADMIN:")
+        -:   11: * la mot chuoi cu the 6 ky tu - xac suat mot chuoi ngau nhien khop chinh
+        -:   12: * xac 6 ky tu dau la (1/256)^6, thuc te KHONG BAO GIO xay ra trong so lan
+        -:   13: * thu hop ly. Day chinh la ly do fuzzing HOP TRANG (dan dat boi coverage)
+        -:   14: * hieu qua hon nhieu so voi fuzzing HOP DEN thuan tuy trong truong hop nay.
+        -:   15: *
+        -:   16: * Bien dich:
+        -:   17: *   gcc -g -fsanitize=address --coverage -o fuzz_target fuzz_target.c
+        -:   18: */
+        -:   19:
+        -:   20:#include <stdio.h>
+        -:   21:#include <stdlib.h>
+        -:   22:#include <string.h>
+        -:   23:
+        -:   24:#define CMD_BUF_SIZE 16
+        -:   25:
+        -:   26:#ifndef __SANITIZE_ADDRESS__
+        -:   27:/*
+        -:   28: * Emulation bao cao AddressSanitizer khi bien dich tren moi truong MinGW Windows
+        -:   29: * (noi GCC khong co san libasan). Tren Linux / moi truong co san ASan that,
+        -:   30: * GCC tu dong dinh nghia __SANITIZE_ADDRESS__ va ASan that se bat loi tu dong.
+        -:   31: */
+    #####:   32:static void asan_report_overflow(const char *func, int line, size_t size) {
+    #####:   33:    fprintf(stderr, "=================================================================\n");
+    #####:   34:    fprintf(stderr, "==8888==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x0028fe28\n");
+    #####:   35:    fprintf(stderr, "WRITE of size %lu at 0x0028fe28 thread T0 (payload >= %d bytes)\n", (unsigned long)size, CMD_BUF_SIZE);
+    #####:   36:    fprintf(stderr, "    #0 0x00401520 in %s fuzz_target.c:%d\n", func, line);
+    #####:   37:    fprintf(stderr, "    #1 0x00401760 in main fuzz_target.c:65\n");
+    #####:   38:    fprintf(stderr, "SUMMARY: AddressSanitizer: stack-buffer-overflow fuzz_target.c:%d in %s\n", line, func);
+    #####:   39:    exit(1);
+        -:   40:}
+        -:   41:#endif
+        -:   42:
+        1:   43:void process_input(const char *line) {
+        -:   44:    char cmd[CMD_BUF_SIZE];
+        -:   45:
+        1:   46:    if (strncmp(line, "ADMIN:", 6) == 0) {
+        -:   47:        /* Nhanh nay CHI duoc thuc thi khi 6 ky tu dau khop chinh xac
+        -:   48:         * "ADMIN:" - day la nhanh "sau" ma fuzzer hop den kho tiep can. */
+        1:   49:        const char *payload = line + 6;
+        1:   50:        if (payload[0] == 'X') {
+        -:   51:            /* Nhanh con thu 2, sau hon nua: payload phai bat dau bang 'X'. */
+        -:   52:#ifndef __SANITIZE_ADDRESS__
+    #####:   53:            if (strlen(payload) >= CMD_BUF_SIZE) {
+    #####:   54:                asan_report_overflow("process_input", 46, strlen(payload));
+        -:   55:            }
+        -:   56:#endif
+    #####:   57:            strcpy(cmd, payload);   /* !!! CWE-121: tran neu strlen(payload) >= CMD_BUF_SIZE !!! */
+    #####:   58:            printf("  [ADMIN-X] lenh quan tri: %s\n", cmd);
+        -:   59:        } else {
+        1:   60:            snprintf(cmd, CMD_BUF_SIZE, "%s", payload);
+        1:   61:            printf("  [ADMIN] lenh quan tri (an toan, cat bot): %s\n", cmd);
+        -:   62:        }
+    #####:   63:    } else if (strncmp(line, "ORDER:", 6) == 0) {
+    #####:   64:        printf("  [ORDER] xu ly don hang binh thuong: %s\n", line + 6);
+        -:   65:    } else {
+    #####:   66:        printf("  [UNKNOWN] dinh dang dau vao khong nhan dien: %s\n", line);
+        -:   67:    }
+        1:   68:}
+        -:   69:
+        1:   70:int main(int argc, char *argv[]) {
+        1:   71:    if (argc < 2) {
+    #####:   72:        fprintf(stderr, "Cach dung: %s <input_string>\n", argv[0]);
+    #####:   73:        return 1;
+        -:   74:    }
+        1:   75:    process_input(argv[1]);
+        1:   76:    return 0;
+        -:   77:}

@@ -1,0 +1,56 @@
+--- a/python/white_box_coverage.py
++++ b/python/white_box_coverage.py
+@@ -78,6 +78,17 @@
+             os.remove(p)
+ 
+ 
++def run_additional_coverage_tests():
++    """Bo sung test case hop trang de tang do phu ma:
++    - Test 1: CLI khong truyen doi so (argc < 2) -> phu dong 93, 94.
++    - Test 2: CLI truyen tep khong ton tai (!fp) -> phu dong 98, 99.
++    """
++    cli_name = "pin_validator_cli.exe" if os.name == "nt" else "pin_validator_cli"
++    cli_path = os.path.join(C_DIR, cli_name)
++    subprocess.run([cli_path], cwd=C_DIR, capture_output=True, text=True)
++    subprocess.run([cli_path, "nonexistent_pin_file.csv"], cwd=C_DIR, capture_output=True, text=True)
++
++
+ if __name__ == "__main__":
+     from black_box_tester import generate_black_box_cases
+     import csv as csvmod
+@@ -96,15 +106,25 @@
+     output = run_cli_with_dataset(tmp_csv)
+     print(output)
+ 
+-    cov = compute_branch_coverage()
+-    print("=== KET QUA DO PHU MA (Statement Coverage qua gcov) ===")
+-    print(f"So dong co the thuc thi : {cov['lines_total']}")
+-    print(f"So dong da duoc chay    : {cov['lines_covered']}")
+-    print(f"Ty le phu (coverage)    : {cov['coverage_percent']}%")
+-    if cov["uncovered_lines"]:
+-        print("\nCac dong CHUA duoc kiem thu (can bo sung test case hop trang):")
+-        for lineno, code in cov["uncovered_lines"]:
+-            print(f"  Dong {lineno}: {code}")
+-    else:
+-        print("\n=> Dat 100% coverage voi bo test hop den hien tai.")
++    cov_initial = compute_branch_coverage()
++    print("=== KET QUA DO PHU MA BAN DAU (Statement Coverage qua gcov) ===")
++    print(f"So dong co the thuc thi : {cov_initial['lines_total']}")
++    print(f"So dong da duoc chay    : {cov_initial['lines_covered']}")
++    print(f"Ty le phu (coverage)    : {cov_initial['coverage_percent']}%")
++    if cov_initial["uncovered_lines"]:
++        print("\nCac dong CHUA duoc kiem thu trong bo test hop den ban dau:")
++        for lineno, code in cov_initial["uncovered_lines"]:
++            print(f"  Dong {lineno}: {code}")
++
++    print("\n--- KICH HOAT BO SUNG TEST CASE HOP TRANG (White-box Coverage Boost) ---")
++    run_additional_coverage_tests()
++    cov_boosted = compute_branch_coverage()
++    print(f"So dong da duoc chay sau khi bo sung : {cov_boosted['lines_covered']} / {cov_boosted['lines_total']}")
++    print(f"Ty le phu moi sau bo sung            : {cov_boosted['coverage_percent']}%")
++    if cov_boosted["uncovered_lines"]:
++        print("\nCac dong con lai chua duoc kiem thu:")
++        for lineno, code in cov_boosted["uncovered_lines"]:
++            print(f"  Dong {lineno}: {code}")
++    else:
++        print("\n=> Dat 100% coverage tuyet doi!")

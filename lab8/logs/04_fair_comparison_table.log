@@ -1,0 +1,16 @@
+=== BANG SO SANH CONG BANG (CUNG NGAN SACH KIEM THU) ===
+
++-----------------------------+-----------------+-----------------+------------------------+-------------------+
+| Chien luoc Fuzzing          | Ngan sach (lan) | So crash tim ra | Lan thu dau tien crash | Hieu qua tong the |
++-----------------------------+-----------------+-----------------+------------------------+-------------------+
+| Hop den (Black-box)         | 500 lan         | 0 crash         | Khong tim thay         | 0% (that bai)     |
+| Hop den (Black-box)         | 1000 lan        | 0 crash         | Khong tim thay         | 0% (that bai)     |
+| Hop trang (Coverage-guided) | 500 lan         | 3 crash         | Lan thu 402            | 100% (thanh cong) |
++-----------------------------+-----------------+-----------------+------------------------+-------------------+
+
+KET LUAN SO SANH:
+- Du chi duoc cap mot nua ngan sach (500 lan so voi 1000 lan), fuzzer hop trang da tim duoc 3 crash khac nhau,
+  trong khi fuzzer hop den hoan toan bat luc.
+- Su khac biet den tu vong lap phan hoi (Coverage Feedback Loop):
+  + Hop den bo phi hang nghin phep thu vao cac vung khong gian khong loi vi khong biet minh dang o dau.
+  + Hop trang biet chinh xac khi nao minh tien gan toi vung loi de tap trung nguon luc dot bien sau vao do.

@@ -1,0 +1,28 @@
+=== BANG DOI CHIEU: LOI TU TIM BANG MAT (CODE REVIEW) VS LOI CPPCHECK PHAT HIEN ===
+
+1. BANG DOI CHIEU CHI TIET:
+--------------------------------------------------------------------------------------------------------------------
+STT  Ham bi loi              Loi phat hien bang mat (Review)   Loi cppcheck phat hien     Trang thai doi chieu
+--------------------------------------------------------------------------------------------------------------------
+1    list_insert_front       Thieu kiem tra malloc() tra NULL  [ERROR] uninitdata dong 34 cppcheck bat duoc duoi dang
+                             (CWE-476 NULL Pointer Deref)      Memory allocated not init  chua khoi tao vung nho
+--------------------------------------------------------------------------------------------------------------------
+2    list_remove_by_title    Thieu free(cur) khi tach node     KHONG PHAT HIEN DUOC       CPPCHECK BO SOT!
+                             (CWE-401 Memory Leak)             (cppcheck missed this)     Can phan tich dong (ASan)
+--------------------------------------------------------------------------------------------------------------------
+3    list_count_UNSAFE       Bien count chua khoi tao          [WARNING] uninitvar d68    cppcheck bat chinh xac 100%
+                             (CWE-457 Uninitialized Read)      Uninitialized var: count   ngay tai cay cu phap AST
+--------------------------------------------------------------------------------------------------------------------
+
+2. GIAI THICH VI SAO CPPCHECK BO SOT LOI MEMORY LEAK TRONG list_remove_by_title:
+- Trong ham `list_remove_by_title`, con tro `cur` duoc lay tu `head`.
+- Khi thao tac ngat lien ket: `prev->next = cur->next;` roi `return head;`.
+- Ve mat do thi luong dieu khien (Control Flow Graph - CFG):
+  cppcheck chi thay `cur` la mot con tro cuc bo duoc tro vao mot phan tu cua danh sach duoc truyen
+  tu tham so ben ngoai (`BookNode *head`).
+- cppcheck mac dinh khong the biet chac chan rang doi tuong ma `cur` tro toi co con duoc tham chieu
+  boi mot con tro nao khac trong pham vi toan cuc hay khong (Aliasing problem).
+- Viec theo doi so huu vung nho (Memory Ownership Tracking) xuyen qua cac con tro lien ket
+  la mot bai toan phan tich tinh cuc ky phuc tap, de gay ra bao dong gia (False Positives).
+- Do do, cppcheck da bo sot loi memory leak nay! Day la ly do tai sao chung ta bat buoc phai ket hop
+  phan tich dong (AddressSanitizer LeakSanitizer o Lab 3) de bat triet de loi ro ri bo nho o runtime.

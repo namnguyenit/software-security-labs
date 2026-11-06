@@ -1,0 +1,10 @@
+[PASS] test_vulnerable_overflow_detected
+[PASS] test_vulnerable_uaf_detected
+[PASS] test_vulnerable_leak_detected
+[PASS] test_secure_overflow_clean
+[PASS] test_secure_uaf_clean
+[PASS] test_secure_leak_clean
+[PASS] test_risk_assessment_matches_baseline
+[PASS] test_critical_vuln_is_the_buffer_overflow
+
+8/8 test da PASS

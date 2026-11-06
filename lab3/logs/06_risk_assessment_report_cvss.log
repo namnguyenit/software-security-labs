@@ -1,0 +1,16 @@
+ID        CWE       Ten loi                               Diem   Muc do    
+--------------------------------------------------------------------------------
+VULN-001  CWE-121   Stack/Heap-based Buffer Overflow      9.8    CRITICAL  
+VULN-005  CWE-190   Integer Overflow to Buffer Overflow   8.7    HIGH      
+VULN-002  CWE-416   Use After Free                        6.9    MEDIUM    
+VULN-003  CWE-401   Memory Leak (Missing Release of Memory)5.4    MEDIUM    
+VULN-004  CWE-476   NULL Pointer Dereference (rui ro tiem an)2.5    LOW       
+
+Thu tu uu tien khac phuc (theo diem rui ro giam dan):
+  1. [CRITICAL] VULN-001 (CWE-121) - Stack/Heap-based Buffer Overflow
+  2. [HIGH] VULN-005 (CWE-190) - Integer Overflow to Buffer Overflow
+  3. [MEDIUM] VULN-002 (CWE-416) - Use After Free
+  4. [MEDIUM] VULN-003 (CWE-401) - Memory Leak (Missing Release of Memory)
+  5. [LOW] VULN-004 (CWE-476) - NULL Pointer Dereference (rui ro tiem an)
+
+Ket qua da luu: D:\Downloads\Safe Application\lab3\code\dataset\risk_assessment_results.json

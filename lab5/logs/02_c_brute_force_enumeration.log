@@ -1,0 +1,19 @@
+=== Kiem chung cheo bang liet ke vet can (Brute-force) ===
+
+COND-01 (mo khoa cua):
+  [COND-01] TUONG DUONG tren toan bo 2^3 = 8 to hop
+
+COND-03 (PIN hop le):
+  [COND-03] TUONG DUONG tren toan bo 2^3 = 8 to hop
+
+COND-04 (tamper -> alarm):
+  [COND-04] TUONG DUONG tren toan bo 2^2 = 4 to hop
+
+COND-05 (bypass xac thuc):
+  [COND-05] KHONG TUONG DUONG - phan vi du dau tien: (0,1,1) -> original=0, optimized=1
+  [COND-05] -> 1/8 to hop cho ket qua khac nhau
+
+=== Doi chieu voi ket qua Python/Z3 (dataset/smt_verification_results.json) ===
+Ky vong: COND-01 tuong duong, COND-03 tuong duong, COND-04 tuong duong,
+         COND-05 KHONG tuong duong (co 1/8 to hop khac nhau - chinh la
+         'backdoor' bypass_flag && is_admin).

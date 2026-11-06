@@ -1,0 +1,7 @@
+=== Access Simulator (C) - da nap 6 trang thai, 9 chuyen tiep ===
+Trang thai khoi tao: S0 (Locked_Idle) [locked]
+  --(insert_card)--> S1 (Authenticating) [locked]
+  --(timeout_glitch)--> S5 (BUG_Unlock_NoAuth) [unlocked]
+  [CANH BAO AN TOAN] Trang thai 'S5' la 'unlocked' nhung KHONG 'authenticated' - vi pham thuoc tinh P1!
+=== Trang thai cuoi cung: S5 ===
+So su kien bi tu choi (khong hop le): 0

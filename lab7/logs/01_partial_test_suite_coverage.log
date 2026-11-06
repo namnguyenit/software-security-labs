@@ -1,0 +1,28 @@
+=== KET QUA CHAY BO TEST 'PARTIAL' (KHONG DAY DU) ===
+
+[PASS] qty=5    price=100000.0   member=1 expected=OK                 actual=OK                 discount=0.05 total=475000.0
+[PASS] qty=15   price=100000.0   member=1 expected=OK                 actual=OK                 discount=0.15 total=1275000.0
+
+Tong: 2/2 test PASS
+
+Coverage: 79.69% (51/64 dong)
+
+Cac dong CHUA duoc kiem thu trong file order_processor.c:
+  Dong  52: return ORDER_INVALID_QTY;
+  Dong  55: return ORDER_INVALID_PRICE;
+  Dong  66: if (quantity >= 20) {
+  Dong  67: discount = 0.10;
+  Dong  81: return ORDER_APPROVAL_REQUIRED;
+  Dong  89: case ORDER_INVALID_QTY: return "INVALID_QTY";
+  Dong  90: case ORDER_INVALID_PRICE: return "INVALID_PRICE";
+  Dong  91: case ORDER_APPROVAL_REQUIRED: return "APPROVAL_REQUIRED";
+  Dong  92: default: return "UNKNOWN";
+  Dong 101: fprintf(stderr, "Cach dung: %s <test_inputs.csv>\n", argv[0]);
+  Dong 102: return 1;
+  Dong 106: fprintf(stderr, "[LOI] Khong mo duoc file: %s\n", argv[1]);
+  Dong 107: return 1;
+
+NHAN XET MAU CHOT:
+- Bo test partial chi co 2 test case nhung CA 2 DEU PASS (100% test pass).
+- Tuy nhien, coverage chi dat 79.69% - bo sot rat nhieu nhanh xu ly loi, nhanh chiet khau si, va nguong phe duyet.
+- Day la bang chung truc quan nhat cho thay: 'Ty le PASS 100%' khong phan anh day du chat luong cua bo kiem thu.

@@ -1,0 +1,28 @@
+=== GIAI DAP LY THUYET CHUYEN SAU: BOUNDED MODEL CHECKING & MO HINH BO NHO ===
+
+1. NGUYEN LY HOAT DONG CUA BOUNDED MODEL CHECKING (BMC):
+   - BMC bien doi bai toan kiem tra mo hinh (Model Checking) tren do thi trang thai vo han thanh
+     bai toan kiem tra tinh thoa man menh de (SAT/SMT) tren mot do sau gioi han k.
+   - Ba buoc xu ly cot loi:
+     (1) Mo cuon vong lap (Loop Unwinding): Thay the vong lap while/for bang k khoi lenh tuan tu if-else.
+     (2) Chuyen doi sang dang SSA (Static Single Assignment): Moi bien duoc gan gia tri moi tai moi buoc
+         duoc gan mot phien ban bien moi (x_0, x_1, ..., x_k).
+     (3) Ma hoa SMT: Sinh cong thuc Phi = Init(s_0) AND And_{i=0}^{k-1} Trans(s_i, s_{i+1}) AND Or_{i=0}^k Not(Prop(s_i)).
+   - Neu Phi la SAT: Solver tra ve mot duong di cu the dan toi trang thai vi pham (Counterexample / Witness).
+   - Neu Phi la UNSAT: He thong khong co loi trong k buoc dau tien.
+
+2. MO HINH BO NHO TRONG KIEM CHUNG (MEMORY MODELS):
+   - Mo hinh khoang gia tri (Interval/Flat Memory Model): Dung trong dong co Lab 6 nay, mo hinh hoa mang bang
+     khoang chi so hop le [0, array_size). Don gian, tinh toan cuc nhanh, rat tot cho kiem tra vuot bien mảng.
+   - Mo hinh Z3 Array Theory (Select/Store): Mang duoc coi la mot ham toan hoc A: Index -> Value.
+     + select(A, i) doc gia tri tai i.
+     + store(A, i, v) tra ve mang moi voi gia tri tai i bang v.
+     + Tuan theo tien de Read-over-Write cua McCarthy: select(store(A, i, v), j) = if (i=j) then v else select(A, j).
+   - Mo hinh Byte-Level Memory Model (nhu CBMC): Bieu dien bo nho la mang byte khong lo, ho tro con tro
+     ep kieu (type-punning), pointer arithmetic va struct padding.
+
+3. SO SANH BMC VOI MODEL CHECKING CO DIEN (KRIPKE/SMV O LAB 1):
+   - Kripke/NuSMV (Lab 1): Kiem tra an toan vo han (Unbounded Safety) tren toan bo khong gian trang thai reachable.
+     Tuy nhien doi mat voi van de 'Bung no khong gian trang thai' (State Space Explosion) khi chuong trinh co bien so.
+   - BMC (Lab 6): Tranh duoc bung no trang thai nho gioi han do sau k va dung SMT solver hien dai (Z3).
+     Phat hien bug cuc nhanh, tao duoc exploit payload chinh xac, nhung khong chung minh duoc an toan tuyet doi.

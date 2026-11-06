@@ -1,0 +1,29 @@
+=== GIAI THICH CHI TIET LO HONG BACKDOOR COND-05 VA ANH XA MA CWE ===
+
+1. MO TA DIEU KIEN TRONG COND-05:
+   - Ban goc (Original P)   : authenticated
+   - Ban viet lai (Optimized Q): authenticated OR (is_admin AND bypass_flag)
+
+2. KET QUA PHAT HIEN CUA Z3 SMT SOLVER:
+   - P XOR Q tra ve: SAT (Thoa man)
+   - Phan vi du (Counterexample) do Z3 tim ra:
+     {
+       authenticated: False,
+       is_admin:      True,
+       bypass_flag:   True
+     }
+   - Gia tri bieu thuc tai phan vi du:
+     + P = False (He thong goc tu choi truy cap vi nguoi dung CHUA XAC THUC)
+     + Q = False OR (True AND True) = True (Ban toi uu CHO PHEP TRUY CAP!)
+
+3. PHAN TICH CHI TIET BAN CHAT LOI VA ANH XA CWE:
+   (1) Lo hong phat sinh thuoc loai CWE-288: Authentication Bypass Using an Alternate Path or Channel.
+   (2) Day la mot vi du kinh dien ve "Cua sau co chu y" (Backdoor / Hardcoded Debug Flag) duoc lap trinh vien
+       hoac ke tan cong cai cam vao ma nguon duoi danh nghia "toi uu hoa" hoac "chuc nang danh cho quan tri vien".
+   (3) Bang cach loi dung co `bypass_flag = True` (co the den tu mot header HTTP gia mao, tham so URL, hoac bien moi truong),
+       mot ke tan cong khong can co mat khau hay token xac thuc hop le (authenticated = False) van co the dang nhap
+       vao he thong voi dac quyen cao nhat cua quan tri vien (is_admin = True).
+   (4) Lo hong nay pha vo nguyen tac bao mat co ban "Complete Mediation" (Moi yeu cau phai duoc kiem tra xac thuc
+       dong nhat va khong the bi bo qua boi bat ky con duong phu nao).
+   (5) Kiem chung hinh thuc bang Z3 chung minh suc manh vuot troi trong viec phat hien Backdoor: khong can biet
+       kich ban tan cong tu truoc, solver tu dong tim ra duy nhat to hop bien gay ro ri bao mat trong tich tac.

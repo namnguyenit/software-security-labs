@@ -1,0 +1,30 @@
+=== KET QUA CHAY BO TEST 'FULL' (DAY DU CAC NHANH BIEN) ===
+
+[PASS] qty=0    price=100000.0   member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=101  price=100000.0   member=1 expected=INVALID_QTY        actual=INVALID_QTY        discount=0.00 total=0.0
+[PASS] qty=5    price=-1.0       member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=5    price=0.0        member=1 expected=INVALID_PRICE      actual=INVALID_PRICE      discount=0.00 total=0.0
+[PASS] qty=5    price=100000.0   member=1 expected=OK                 actual=OK                 discount=0.05 total=475000.0
+[PASS] qty=15   price=100000.0   member=1 expected=OK                 actual=OK                 discount=0.15 total=1275000.0
+[PASS] qty=5    price=100000.0   member=0 expected=OK                 actual=OK                 discount=0.00 total=500000.0
+[PASS] qty=25   price=100000.0   member=0 expected=OK                 actual=OK                 discount=0.10 total=2250000.0
+[PASS] qty=100  price=20000000.0 member=1 expected=APPROVAL_REQUIRED  actual=APPROVAL_REQUIRED  discount=0.15 total=1700000000.0
+
+Tong: 9/9 test PASS
+
+Coverage: 92.19% (59/64 dong)
+
+Cac dong CHUA duoc kiem thu trong file order_processor.c:
+  Dong  92: default: return "UNKNOWN";
+  Dong 101: fprintf(stderr, "Cach dung: %s <test_inputs.csv>\n", argv[0]);
+  Dong 102: return 1;
+  Dong 106: fprintf(stderr, "[LOI] Khong mo duoc file: %s\n", argv[1]);
+  Dong 107: return 1;
+
+NHAN XET MAU CHOT:
+- Bo test full bo sung 7 test case moi (tong cong 9 test case) bao quat cac truong hop bien:
+  + quantity <= 0 va quantity > 100 (INVALID_QTY)
+  + unit_price <= 0 (INVALID_PRICE)
+  + Khach hang thanh vien va khach vang lai mua si (quantity >= 20)
+  + Don hang vuot nguong 10 trieu VND (APPROVAL_REQUIRED)
+- Coverage tang vot tu 79.69% len 92.19% (+12.5%).

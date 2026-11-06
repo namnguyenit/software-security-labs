@@ -1,0 +1,60 @@
+--- a/c/vulnerable_inventory.c
++++ b/c/secure_inventory.c
+@@ -34,4 +34,13 @@
+-void add_book_title_UNSAFE(Book *b, const char *title) {
+-    strcpy(b->title, title);   /* !!! KHONG BAO GIO dung strcpy voi input khong tin cay !!! */
+-}
++int add_book_title_SAFE(Book *b, const char *title) {
++    if (b == NULL || title == NULL) {
++        fprintf(stderr, "[LOI] Tham so NULL truyen vao add_book_title_SAFE\n");
++        return -1;
++    }
++    int written = snprintf(b->title, TITLE_MAX, "%s", title);
++    /* snprintf tra ve so ky tu SE duoc ghi neu du cho -> neu >= TITLE_MAX
++     * nghia la chuoi goc da bi cat bot (truncated) de tranh tran bo dem. */
++    return (written >= TITLE_MAX) ? 1 : 0;
++}
+@@ -46,6 +55,6 @@
+-char *add_book_title_UNSAFE_HEAP(const char *title) {
++char *add_book_title_SAFE_HEAP(const char *title) {
+     char *buf = (char *)malloc(TITLE_MAX_HEAP);
+     if (!buf) return NULL;
+-    strcpy(buf, title);        /* !!! tran heap neu strlen(title) >= TITLE_MAX_HEAP !!! */
++    snprintf(buf, TITLE_MAX_HEAP, "%s", title); /* An toan, gioi han do dai */
+     return buf;
+ }
+@@ -54,10 +63,13 @@
+-void demo_use_after_free(void) {
++void demo_use_after_free_FIXED(void) {
+     Book *b = (Book *)malloc(sizeof(Book));
+     if (!b) return;
+-    strcpy(b->title, "Clean Code");
++    add_book_title_SAFE(b, "Clean Code");
+     b->year = 2008;
++    int year_copy = b->year;   /* sao chep du lieu can dung TRUOC khi free */
+     free(b);
+-    /* LOI: truy cap b sau khi da free -> hanh vi khong xac dinh (UB) */
+-    printf("  [UAF] (khong an toan) nam xuat ban sau khi free: %d\n", b->year);
++    b = NULL;                  /* tranh dangling pointer */
++    printf("  [FIXED] nam xuat ban (da sao chep truoc khi free): %d\n", year_copy);
+ }
+@@ -65,9 +77,19 @@
+-void demo_memory_leak(int count) {
++void demo_memory_leak_FIXED(int count) {
++    Book **books = (Book **)malloc(sizeof(Book *) * (size_t)count);
++    if (!books) return;
+     for (int i = 0; i < count; i++) {
+-        Book *b = (Book *)malloc(sizeof(Book));
+-        if (!b) continue;
+-        b->year = 2000 + i;
+-        /* LOI: thieu free(b); -> ro ri bo nho moi lan goi ham */
++        books[i] = (Book *)malloc(sizeof(Book));
++        if (!books[i]) continue;
++        books[i]->year = 2000 + i;
+     }
++    for (int i = 0; i < count; i++) {
++        free(books[i]);       /* giai phong tung phan tu */
++        books[i] = NULL;
++    }
++    free(books);               /* giai phong mang con tro */
+ }

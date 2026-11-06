@@ -1,0 +1,10 @@
+=== KET QUA CHAY BO TEST TU DONG (TESTS/TEST_COVERAGE.PY) ===
+Lenh: python tests/test_coverage.py
+Exit code: 0
+
+[PASS] test_partial_suite_all_pass
+[PASS] test_full_suite_all_pass
+[PASS] test_full_suite_covers_significantly_more_than_partial
+[PASS] test_combinatorial_suite_all_pass_and_matches_or_exceeds_full_coverage
+
+4/4 test da PASS

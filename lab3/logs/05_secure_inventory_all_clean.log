@@ -1,0 +1,13 @@
+=== CHAY BAN SECURE_INVENTORY VOI PAYLOAD DAI (OVERFLOW TEST) ===
+Demo Heap Buffer Overflow (DA SUA), payload dai 38 ky tu:
+  Tieu de (heap, an toan, co the bi cat bot): AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+=== CHAY BAN SECURE_INVENTORY VOI USE-AFTER-FREE (UAF TEST) ===
+Demo Use-After-Free (DA SUA):
+  [FIXED] nam xuat ban (da sao chep truoc khi free): 2008
+
+=== CHAY BAN SECURE_INVENTORY VOI DETECT_LEAKS=1 (LEAK TEST) ===
+Demo Memory Leak (DA SUA):
+  (da cap phat va giai phong day du 5 Book)
+
+Ket luan: 0 loi ASan duoc bao. Chuoi bi cat bot (truncated) an toan tai 31 ky tu + '\0'.

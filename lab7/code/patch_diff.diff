@@ -1,0 +1,10 @@
+--- a/python/test_case_generator.py
++++ b/python/test_case_generator.py
+@@ -19,6 +19,7 @@ QUANTITY_CLASSES = [
+     ("invalid_low", 0),
+     ("invalid_high", 101),
+     ("valid_low", 5),
++    ("valid_just_below_member", 9),
+     ("valid_member_threshold", 10),
+     ("valid_nonmember_threshold", 20),
+     ("valid_max", 100),

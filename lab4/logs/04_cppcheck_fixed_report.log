@@ -1,0 +1,9 @@
+=== cppcheck: booklist_v2_fixed.c (PHIEN BAN DA SUA TOAN DIEN) ===
+Khong tim thay bat ky finding nao lien quan den an toan bo nho (error / warning).
+Tong so finding bao mat: 0 finding
+
+Chi tiet cac loi da sua triet de:
+1. CWE-476: Bo sung kiem tra `if (node == NULL)` ngay sau malloc() trong `list_insert_front`.
+2. CWE-401: Bo sung goi `free(cur)` giai phong node bi go khoi danh sach trong `list_remove_by_title`.
+3. CWE-457: Khoi tao bien dem `int count = 0;` ro rang trong `list_count_SAFE`.
+4. Quan ly vong doi: Ham `list_free_all` giai phong toan bo linked list truoc khi ket thuc chuong trinh.

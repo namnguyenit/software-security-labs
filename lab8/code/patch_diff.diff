@@ -1,0 +1,12 @@
+--- a/c/fuzz_target.c
++++ b/c/fuzz_target.c
+@@ -32,7 +32,8 @@ void process_input(const char *line) {
+         const char *payload = line + 6;
+         if (payload[0] == 'X') {
+             /* Nhanh con thu 2, sau hon nua: payload phai bat dau bang 'X'. */
+-            strcpy(cmd, payload);   /* !!! CWE-121: tran neu strlen(payload) >= CMD_BUF_SIZE !!! */
++            /* FIX CWE-121: gioi han do dai ghi vao bo dem CMD_BUF_SIZE */
++            snprintf(cmd, CMD_BUF_SIZE, "%s", payload);
+             printf("  [ADMIN-X] lenh quan tri: %s\n", cmd);
+         } else {
+             snprintf(cmd, CMD_BUF_SIZE, "%s", payload);

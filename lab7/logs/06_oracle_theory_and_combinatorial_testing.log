@@ -1,0 +1,19 @@
+=== CO SO LY THUYET: ORACLE DOC LAP & KIEM THU TO HOP (COMBINATORIAL TESTING) ===
+
+1. KHAI NIEM VA VAI TRO CUA TEST ORACLE DOC LAP:
+   - Test Oracle la co che xac dinh lieu mot ca kiem thu la PASS hay FAIL (so sanh ket qua thuc te voi ket qua mong doi).
+   - SAI LAM NGUY HIEM: Dung chinh ma nguon cua he thong (hoac output chay lan dau) lam oracle. Neu ma nguon co bug,
+     oracle bi nhiem loi va se xac nhan bug do la dung (False Positive / False Negative) - day la loi 'Kiem thu chuong trinh bang chinh no'.
+   - NGUYEN TAC ORACLE DOC LAP:
+     Trong Lab 7, ham expected_status() duoc viet doc lap bang Python hoan toan dua tren tai lieu dac ta yeu cau (Software Requirement Specification).
+     Ngon ngu lap trinh khac (Python vs C), cau truc ma khac, tu duy khac giup phat hien bat ky su sai lech nao cua code C.
+
+2. PHAN HOACH LOP TUONG DUONG VA KIEM THU GIA TRI BIEN:
+   - Khong gian dau vao la vo han (quantity tu INT_MIN den INT_MAX, price la so thuc).
+   - Equivalence Partitioning chia khong gian thanh cac mien gia tri co cung hanh vi.
+   - Boundary Value Analysis (BVA) tap trung kiem thu tai cac diem ranh gioi (0, 1, 9, 10, 19, 20, 100, 101),
+     noi co xac suat mac loi off-by-one cao nhat.
+
+3. GIA TRI CUA COMBINATORIAL BRANCH TESTING TRONG AN TOAN PHAN MEM:
+   - Cac lo hong bao mat thuong an nau tai su ket hop hiem gap giua cac tham so (vi du: don hang khong phai thanh vien nhung gia tri lon).
+   - Kiem thu to hop dam bao khong bo sot bat ky nga re nao cua luong dieu khien (Control Flow Graph).

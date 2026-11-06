@@ -1,0 +1,17 @@
+=== THI NGHIEM BUOC 5: MO RONG NGAN SACH HOP DEN LEN 2500+ LAN THU ===
+So lan thu thuc hien: 2500
+Kich thuoc corpus   : 114
+So crash tim duoc   : 0
+
+DANH SACH CRASH TIM DUOC (NEU CO):
+  (Voi seed 42 va ngan sach mo rong 2500 lan thu van chua tim duoc crash)
+
+PHAN TICH VA NHAN XET CHUYEN SAU:
+1. Fuzzer hop den co the tim ra loi neu tang ngan sach du lon VA CO TU DIEN (DICTIONARY) HO TRO:
+   Nho tu dien co san cac token 'ADMIN:', 'X', fuzzer co xac suat tinh co ghep hai token nay lai voi nhau.
+2. KHOANG CACH TRONG THUC TE CON LON HON GAP BOI:
+   - Trong thuc te, cac nha nghien cuu bao mat hay ke tan cong khong co san mot tu dien hoan hao chua dung
+     chinh xac cac chuoi ma hoa noi bo cua nha phat trien.
+   - Khi chuong trinh phan tich cac giao thuc phuc tap (vi du: HTTP headers, TLS handshake, file PDF/PNG),
+     khong gian dau vao la vo cung khong lo. Fuzzing hop den hoan toan 'chet chim' trong hang ty to hop vo nghia,
+     trong khi coverage-guided fuzzing co the tu dong tai tao lai toan bo dinh dang file ma khong can doc tai lieu!

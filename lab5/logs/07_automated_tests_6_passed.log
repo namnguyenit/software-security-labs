@@ -1,0 +1,8 @@
+[PASS] test_all_pairs_match_expectation
+[PASS] test_counterexample_is_valid_for_non_equivalent_pairs
+[PASS] test_c_brute_force_matches_z3
+[PASS] test_cond02_off_by_one_detection
+[PASS] test_cond05_backdoor_authentication_bypass
+[PASS] test_cond07_business_logic_bypass
+
+6/6 test da PASS
